@@ -180,6 +180,26 @@ h1, h2, h3 {
     color: var(--red);
 }
 
+.btn-nav {
+    display: inline-block;
+    padding: 0.5rem 1.25rem;
+    border: 1px solid var(--gray-border);
+    border-radius: 4px;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--heading-color) !important;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.btn-nav:hover {
+    background: var(--heading-color);
+    color: var(--bg-main) !important;
+    border-color: var(--heading-color);
+}
+
 .btn-theme {
     background: none;
     border: none;
