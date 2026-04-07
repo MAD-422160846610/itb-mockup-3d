@@ -134,14 +134,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 🚢 ITB VECTOR ASSETS INTEGRATION
     const loader = new THREE.SVGLoader();
+    // Resolutor Absoluto Anti-Caché para los SVGs en GitHub Pages
+    const originUrl = window.location.href.includes('github.io') ? 'https://mad-422160846610.github.io/itb-mockup-3d/' : '';
+    const cb = '?v=2'; // Cache buster
+
     const svgAssets = [
-        { url: 'assets/shipGeneralCargo.svg', index: 0, scale: 0.001 },
-        { url: 'assets/shipContainer.svg', index: 2, scale: 0.001 },
-        { url: 'assets/shipBulkCarrier.svg', index: 4, scale: 0.001 },
-        { url: 'assets/logoITB.svg', index: 6, scale: 0.0015 },
-        { url: 'assets/shipHeavyLiftVessel.svg', index: 8, scale: 0.001 },
-        { url: 'assets/shipTanker.svg', index: 10, scale: 0.001 },
-        { url: 'assets/shipRoro.svg', index: 12, scale: 0.001 }
+        { url: originUrl + 'assets/shipGeneralCargo.svg' + cb, index: 0, scale: 0.001 },
+        { url: originUrl + 'assets/shipContainer.svg' + cb, index: 2, scale: 0.001 },
+        { url: originUrl + 'assets/shipBulkCarrier.svg' + cb, index: 4, scale: 0.001 },
+        { url: originUrl + 'assets/logoITB.svg' + cb, index: 6, scale: 0.0015 },
+        { url: originUrl + 'assets/shipHeavyLiftVessel.svg' + cb, index: 8, scale: 0.001 },
+        { url: originUrl + 'assets/shipTanker.svg' + cb, index: 10, scale: 0.001 },
+        { url: originUrl + 'assets/shipRoro.svg' + cb, index: 12, scale: 0.001 }
     ];
 
     svgAssets.forEach(asset => {
