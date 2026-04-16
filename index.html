@@ -22,18 +22,34 @@
     <div id="canvas-container"></div>
     <nav class="tempo-nav">
         <div class="nav-content">
-            <a href="#" class="nav-logo">ITB<span>_</span></a>
+            <a href="#hero" class="nav-logo">ITB<span>_</span></a>
             <ul class="nav-links">
-                <li><a href="#hero">Servicios</a></li>
-                <li><a href="#servicios">Flota</a></li>
-                <li><a href="#diferenciales">Legal</a></li>
+                <li><a href="#servicios">Servicios</a></li>
+                <li><a href="#flota">Flota</a></li>
+                <li><a href="#diferenciales">Diferenciales</a></li>
+                <li><a href="#about">Nosotros</a></li>
                 <li><a href="#contacto" class="btn-nav">Contacto</a></li>
                 <li><button id="theme-toggle" class="btn-theme" title="Toggle Theme"><i class="ph ph-sun"></i></button></li>
             </ul>
+            <button class="mobile-menu-btn" id="mobile-menu-btn">
+                <i class="ph ph-list"></i>
+            </button>
         </div>
     </nav>
 
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobile-menu">
+        <ul class="mobile-nav-links">
+            <li><a href="#servicios">Servicios</a></li>
+            <li><a href="#flota">Flota</a></li>
+            <li><a href="#diferenciales">Diferenciales</a></li>
+            <li><a href="#about">Nosotros</a></li>
+            <li><a href="#contacto">Contacto</a></li>
+        </ul>
+    </div>
+
     <main class="main-content">
+        <!-- Hero Section -->
         <section id="hero" class="hero">
             <div class="container">
                 <div class="hero-text">
@@ -41,14 +57,14 @@
                     <h1>Seguridad en el Mar, <br><span>Precisión en la Tierra</span></h1>
                     <p class="lead">Certificación técnica de buques bajo estándares SOLAS/MARPOL. Rapidez operativa y precisión legal en Panamá.</p>
                     <div class="hero-cta">
-                        <button class="btn-primary">Explorar Servicios</button>
+                        <a href="#servicios" class="btn-primary">Explorar Servicios</a>
                         <a href="#contacto" class="text-link">Agendar Inspección →</a>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Stats Banner Reintegrated -->
+        <!-- Stats Banner -->
         <section class="stats-banner">
             <div class="container stats-grid">
                 <div class="stat-item">
@@ -63,62 +79,305 @@
                     <span class="stat-number">100%</span>
                     <span class="stat-label">Cumplimiento SOLAS</span>
                 </div>
+                <div class="stat-item">
+                    <span class="stat-number">30%</span>
+                    <span class="stat-label">Ahorro vs. Clasificadoras</span>
+                </div>
             </div>
         </section>
 
+        <!-- Servicios Section -->
         <section id="servicios" class="grid-section">
-            <div class="container grid-container">
-                <div class="grid-item">
-                    <div class="label">02 // Inspección Técnica</div>
-                    <i class="ph ph-anchor service-icon"></i>
-                    <h3>Certificación de Casco</h3>
-                    <p>Evaluación de casco, maquinaria y seguridad bajo normas internacionales SOLAS y MARPOL.</p>
-                    <ul class="service-list">
-                        <li>Inspección de Casco</li>
-                        <li>Maquinaria y Estructura</li>
-                    </ul>
+            <div class="container">
+                <div class="section-header">
+                    <span class="label">02 // Servicios</span>
+                    <h2>Soluciones Integrales</h2>
+                    <p>Un solo partner para todo el ciclo operativo de tu buque</p>
                 </div>
+                <div class="grid-container">
+                    <div class="grid-item">
+                        <div class="label">Inspección Técnica</div>
+                        <i class="ph ph-anchor service-icon"></i>
+                        <h3>Certificación de Casco</h3>
+                        <p>Evaluación de casco, maquinaria y seguridad bajo normas internacionales SOLAS y MARPOL.</p>
+                        <ul class="service-list">
+                            <li>Inspección de Casco y Estructura</li>
+                            <li>Inspección de Maquinaria y Propulsión</li>
+                            <li>Inspección de Seguridad SOLAS</li>
+                            <li>Aboard-Survey 24/7</li>
+                            <li>Inspecciones Sub-acuáticas</li>
+                        </ul>
+                    </div>
 
-                <div class="grid-item">
-                    <div class="label">03 // Carga y Commodities</div>
-                    <i class="ph ph-package service-icon"></i>
-                    <h3>Control de Calidad</h3>
-                    <p>Control riguroso de cantidad y calidad (QQ) para todo tipo de mercancías y graneles.</p>
-                    <ul class="service-list">
-                        <li>Cargas Líquidas y Sólidas</li>
-                        <li>Gestión de Acarreo</li>
-                    </ul>
-                </div>
+                    <div class="grid-item">
+                        <div class="label">Carga y Commodities</div>
+                        <i class="ph ph-package service-icon"></i>
+                        <h3>Control de Calidad</h3>
+                        <p>Control riguroso de cantidad y calidad (QQ) para todo tipo de mercancías y graneles.</p>
+                        <ul class="service-list">
+                            <li>QQ - Quantity & Quality</li>
+                            <li>Cargas Líquidas y Sólidas</li>
+                            <li>Servicios Aduanales</li>
+                            <li>Consolidación y Acarreo</li>
+                            <li>Avalúos y Peritaje</li>
+                        </ul>
+                    </div>
 
-                <div class="grid-item">
-                    <div class="label">04 // Asesoría Legal</div>
-                    <i class="ph ph-scales service-icon"></i>
-                    <h3>Derecho Marítimo</h3>
-                    <p>Especialistas en fletamentos, reclamos comerciales e intermediación internacional.</p>
-                    <ul class="service-list">
-                        <li>Contratos de Fletamento</li>
-                        <li>Gestión de Reclamos</li>
-                    </ul>
+                    <div class="grid-item">
+                        <div class="label">Asesoría Legal</div>
+                        <i class="ph ph-scales service-icon"></i>
+                        <h3>Derecho Marítimo</h3>
+                        <p>Especialistas en fletamentos, reclamos comerciales e intermediación internacional.</p>
+                        <ul class="service-list">
+                            <li>Contratos de Fletamento</li>
+                            <li>INCOTERMS y Comercio</li>
+                            <li>Gestión de Reclamos</li>
+                            <li>Asesoría en Derecho Marítimo</li>
+                            <li>Agenciamiento Portuario</li>
+                        </ul>
+                    </div>
+
+                    <div class="grid-item">
+                        <div class="label">Servicios Técnicos</div>
+                        <i class="ph ph-wrench service-icon"></i>
+                        <h3>Technical Services</h3>
+                        <p>Coordinación integral con astilleros y proveedores especializados.</p>
+                        <ul class="service-list">
+                            <li>Coordinación de Reparaciones</li>
+                            <li>Inspecciones Pre-Compra</li>
+                            <li>Seguimiento de Certificaciones</li>
+                            <li>Pruebas No Destructivas</li>
+                            <li>Metalografía y Análisis</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </section>
 
+        <!-- Flota Section -->
+        <section id="flota" class="grid-section">
+            <div class="container">
+                <div class="section-header">
+                    <span class="label">03 // Flota</span>
+                    <h2>Tipos de Buques</h2>
+                    <p>Experiencia técnica en todos los segmentos navieros</p>
+                </div>
+                <div class="grid-container fleet-grid">
+                    <div class="grid-item fleet-item">
+                        <i class="ph ph-ship fleet-icon"></i>
+                        <h3>Bulk Carrier</h3>
+                        <p>Inspecciones especializadas en graneles sólidos</p>
+                    </div>
+                    <div class="grid-item fleet-item">
+                        <i class="ph ph-container fleet-icon"></i>
+                        <h3>Container Ship</h3>
+                        <p>Control de carga contenerizada y verificación de estiba</p>
+                    </div>
+                    <div class="grid-item fleet-item">
+                        <i class="ph ph-drop fleet-icon"></i>
+                        <h3>Tanker</h3>
+                        <p>Cargas líquidas, muestreo y análisis de calidad</p>
+                    </div>
+                    <div class="grid-item fleet-item">
+                        <i class="ph ph-car fleet-icon"></i>
+                        <h3>Ro-Ro</h3>
+                        <p>Vehículos y carga rodante, inspección de cubicaje</p>
+                    </div>
+                    <div class="grid-item fleet-item">
+                        <i class="ph ph-anchor fleet-icon"></i>
+                        <h3>Heavy Lift</h3>
+                        <p>Carga proyectada y equipos fuera de gauge</p>
+                    </div>
+                    <div class="grid-item fleet-item">
+                        <i class="ph ph-box fleet-icon"></i>
+                        <h3>General Cargo</h3>
+                        <p>Carga general y multimodal</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Diferenciales Section -->
         <section id="diferenciales" class="grid-section">
-            <div class="container grid-container">
-                <div class="grid-item">
-                    <div class="label">05 // Velocidad Operativa</div>
-                    <h3>Reportes en 24h</h3>
-                    <p>Entrega de resultados preliminares inmediatos para no detener la operación de su buque.</p>
+            <div class="container">
+                <div class="section-header">
+                    <span class="label">04 // Diferenciales</span>
+                    <h2>¿Por Qué Elegir ITB?</h2>
+                    <p>Ventajas competitivas que nos distinguen</p>
+                </div>
+                <div class="grid-container differentials-grid">
+                    <div class="grid-item differential-item">
+                        <span class="diff-number">01</span>
+                        <h3>Rapidez Operativa</h3>
+                        <p>Reportes preliminares en 24h. No paralizamos la operación de su buque.</p>
+                    </div>
+                    <div class="grid-item differential-item">
+                        <span class="diff-number">02</span>
+                        <h3>Precio Competitivo</h3>
+                        <p>30% menor costo que las clasificadoras globales sin perder calidad.</p>
+                    </div>
+                    <div class="grid-item differential-item">
+                        <span class="diff-number">03</span>
+                        <h3>Un Solo Partner</h3>
+                        <p>Inspección, carga y legal en un solo proveedor. Sin fragmentación.</p>
+                    </div>
+                    <div class="grid-item differential-item">
+                        <span class="diff-number">04</span>
+                        <h3>Red UCTI Holding</h3>
+                        <p>Acceso a reparaciones, sub-acuáticas y análisis técnicos.</p>
+                    </div>
+                    <div class="grid-item differential-item">
+                        <span class="diff-number">05</span>
+                        <h3>Certificación Internacional</h3>
+                        <p>Compatible con SGS, Bureau Veritas, Lloyd's Register.</p>
+                    </div>
+                    <div class="grid-item differential-item">
+                        <span class="diff-number">06</span>
+                        <h3>Atención Local 24/7</h3>
+                        <p>Inspectores en Panamá con disponibilidad inmediata.</p>
+                    </div>
                 </div>
             </div>
         </section>
 
+        <!-- About Section -->
+        <section id="about" class="grid-section about-section">
+            <div class="container">
+                <div class="section-header">
+                    <span class="label">05 // Nosotros</span>
+                    <h2>ITB Maritime Services</h2>
+                    <p>Excelencia marítima desde Panamá para el mundo</p>
+                </div>
+                <div class="about-content">
+                    <div class="about-text">
+                        <p>Somos una firma de inspecciones técnicas de buques con sede en Panamá, operando bajo los más altos estándares internacionales <strong>SOLAS y MARPOL</strong>.</p>
+                        <p>Nuestro diferencial: <strong>rapidez operativa sin precedentes</strong> — entregamos reportes en 48-72 horas, cuando la industria ofrece 10-15 días.</p>
+                        <p>Gracias a nuestra integración con <strong>UCTI Holding</strong>, ofrecemos un ecosistema integral que incluye reparaciones navales, inspecciones sub-acuáticas, servicios de carga y asesoría legal marítima.</p>
+                    </div>
+                    <div class="about-stats">
+                        <div class="about-stat">
+                            <span class="stat-number">48-72h</span>
+                            <span class="stat-label">Tiempo de Respuesta</span>
+                        </div>
+                        <div class="about-stat">
+                            <span class="stat-number">30%</span>
+                            <span class="stat-label">Ahorro Promedio</span>
+                        </div>
+                        <div class="about-stat">
+                            <span class="stat-number">100%</span>
+                            <span class="stat-label">SOLAS/MARPOL</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contacto" class="contact-section">
+            <div class="container">
+                <div class="section-header">
+                    <span class="label">06 // Contacto</span>
+                    <h2>Agendemos una Inspección</h2>
+                    <p>Nuestro equipo está disponible 24/7 para atenderte</p>
+                </div>
+                <div class="contact-grid">
+                    <div class="contact-info">
+                        <div class="contact-item">
+                            <i class="ph ph-phone"></i>
+                            <div>
+                                <h4>Teléfono</h4>
+                                <p>+507 0000-0000</p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <i class="ph ph-envelope"></i>
+                            <div>
+                                <h4>Email</h4>
+                                <p>info@itbmaritime.com</p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <i class="ph ph-map-pin"></i>
+                            <div>
+                                <h4>Ubicación</h4>
+                                <p>Ciudad de Panamá, Panamá</p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <i class="ph ph-clock"></i>
+                            <div>
+                                <h4>Horario</h4>
+                                <p>24 horas / 7 días</p>
+                            </div>
+                        </div>
+                    </div>
+                    <form class="contact-form" id="contact-form">
+                        <div class="form-group">
+                            <label for="name">Nombre</label>
+                            <input type="text" id="name" name="name" required placeholder="Tu nombre completo">
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" required placeholder="tu@email.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="company">Empresa</label>
+                            <input type="text" id="company" name="company" placeholder="Nombre de tu empresa">
+                        </div>
+                        <div class="form-group">
+                            <label for="service">Servicio de Interés</label>
+                            <select id="service" name="service">
+                                <option value="">Selecciona un servicio</option>
+                                <option value="inspeccion">Inspección Técnica</option>
+                                <option value="carga">Carga y Commodities</option>
+                                <option value="legal">Asesoría Legal</option>
+                                <option value="tecnico">Servicios Técnicos</option>
+                                <option value="otro">Otro</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Mensaje</label>
+                            <textarea id="message" name="message" rows="4" placeholder="Describe tu requerimiento..."></textarea>
+                        </div>
+                        <button type="submit" class="btn-primary">Enviar Mensaje</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
         <footer>
             <div class="container">
                 <div class="footer-grid">
                     <div class="footer-brand">
                         <h2>ITB<span>_</span></h2>
                         <p>Excelencia marítima desde Panamá para el mundo.</p>
+                    </div>
+                    <div class="footer-column">
+                        <h4>Servicios</h4>
+                        <ul>
+                            <li><a href="#servicios">Inspección Técnica</a></li>
+                            <li><a href="#servicios">Carga y Commodities</a></li>
+                            <li><a href="#servicios">Asesoría Legal</a></li>
+                            <li><a href="#servicios">Servicios Técnicos</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-column">
+                        <h4>Empresa</h4>
+                        <ul>
+                            <li><a href="#about">Nosotros</a></li>
+                            <li><a href="#diferenciales">Diferenciales</a></li>
+                            <li><a href="#flota">Tipos de Flota</a></li>
+                            <li><a href="#contacto">Contacto</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-column">
+                        <h4>Contacto</h4>
+                        <ul>
+                            <li>+507 0000-0000</li>
+                            <li>info@itbmaritime.com</li>
+                            <li>Ciudad de Panamá</li>
+                        </ul>
                     </div>
                 </div>
                 <div class="footer-bottom">
