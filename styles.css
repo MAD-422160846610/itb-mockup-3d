@@ -77,6 +77,35 @@ h1, h2, h3, h4 {
     display: block;
 }
 
+/* Custom SVG Icons */
+.custom-icon {
+    width: 48px;
+    height: 48px;
+    margin-bottom: 1.5rem;
+    display: block;
+}
+
+.custom-icon.differential-icon {
+    width: 36px;
+    height: 36px;
+    margin-bottom: 0.5rem;
+}
+
+/* Form Status Messages */
+.form-status {
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    text-align: center;
+}
+
+.form-status.success {
+    color: #22c55e;
+}
+
+.form-status.error {
+    color: var(--red);
+}
+
 .label {
     font-family: var(--font-mono);
     font-size: 0.75rem;

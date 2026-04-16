@@ -44,25 +44,89 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Contact Form Handler
+    // EmailJS - Configurar con tus credenciales
+    // Reemplaza estos valores con los tuyos de EmailJS
+    const EMAILJS_PUBLIC_KEY = 'TU_PUBLIC_KEY';
+    const EMAILJS_SERVICE_ID = 'TU_SERVICE_ID';
+    const EMAILJS_TEMPLATE_ID = 'TU_TEMPLATE_ID';
+
+    // Contact Form Handler with EmailJS
     const contactForm = document.getElementById('contact-form');
-    if (contactForm) {
-        contactForm.addEventListener('submit', function(e) {
+    const submitBtn = document.getElementById('submit-btn');
+    const formStatus = document.getElementById('form-status');
+
+    if (contactForm && typeof emailjs !== 'undefined') {
+        // Inicializar EmailJS
+        emailjs.init(EMAILJS_PUBLIC_KEY);
+
+        contactForm.addEventListener('submit', async function(e) {
             e.preventDefault();
             
+            // Mostrar estado de carga
+            if (submitBtn) {
+                submitBtn.textContent = 'Enviando...';
+                submitBtn.disabled = true;
+            }
+
             const formData = new FormData(this);
             const data = Object.fromEntries(formData.entries());
             
-            // Simple validation
+            // Validación simple
+            if (!data.name || !data.email) {
+                if (formStatus) {
+                    formStatus.textContent = 'Por favor completa los campos requeridos.';
+                    formStatus.className = 'form-status error';
+                }
+                if (submitBtn) {
+                    submitBtn.textContent = 'Enviar Mensaje';
+                    submitBtn.disabled = false;
+                }
+                return;
+            }
+
+            try {
+                // Enviar email usando EmailJS
+                await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+                    from_name: data.name,
+                    from_email: data.email,
+                    company: data.company || 'No especifica',
+                    service: data.service || 'Otro',
+                    message: data.message
+                });
+
+                // Éxito
+                if (formStatus) {
+                    formStatus.textContent = '¡Gracias! Tu mensaje ha sido enviado correctamente.';
+                    formStatus.className = 'form-status success';
+                }
+                contactForm.reset();
+            } catch (error) {
+                // Error
+                console.error('Error al enviar:', error);
+                if (formStatus) {
+                    formStatus.textContent = 'Error al enviar. Por favor intenta de nuevo o contáctanos directamente.';
+                    formStatus.className = 'form-status error';
+                }
+            } finally {
+                if (submitBtn) {
+                    submitBtn.textContent = 'Enviar Mensaje';
+                    submitBtn.disabled = false;
+                }
+            }
+        });
+    } else if (contactForm) {
+        // Fallback si EmailJS no está cargado
+        contactForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData.entries());
+            
             if (!data.name || !data.email) {
                 alert('Por favor completa los campos requeridos.');
                 return;
             }
 
-            // In a real implementation, you would send this to a server
             console.log('Form submitted:', data);
-            
-            // Show success message
             alert('Gracias por contactarnos. Te responderemos pronto.');
             this.reset();
         });

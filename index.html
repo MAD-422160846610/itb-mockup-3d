@@ -14,6 +14,9 @@
     <!-- Phosphor Icons -->
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
     
+    <!-- EmailJS -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    
     <link rel="stylesheet" href="styles.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/SVGLoader.js"></script>
@@ -55,7 +58,7 @@
                 <div class="hero-text">
                     <span class="label">01 // Ecosistema Integral Marítimo</span>
                     <h1>Seguridad en el Mar, <br><span>Precisión en la Tierra</span></h1>
-                    <p class="lead">Certificación técnica de buques bajo estándares SOLAS/MARPOL. Rapidez operativa y precisión legal en Panamá.</p>
+                    <p class="lead">Certificación técnica de buques bajo estándares SOLAS/MARPOL. Rapidez operativa y precisión legal en Venezuela.</p>
                     <div class="hero-cta">
                         <a href="#servicios" class="btn-primary">Explorar Servicios</a>
                         <a href="#contacto" class="text-link">Agendar Inspección →</a>
@@ -97,7 +100,7 @@
                 <div class="grid-container">
                     <div class="grid-item">
                         <div class="label">Inspección Técnica</div>
-                        <i class="ph ph-anchor service-icon"></i>
+                        <img src="assets/iconInspeccion.svg" alt="Inspección Técnica" class="custom-icon">
                         <h3>Certificación de Casco</h3>
                         <p>Evaluación de casco, maquinaria y seguridad bajo normas internacionales SOLAS y MARPOL.</p>
                         <ul class="service-list">
@@ -111,7 +114,7 @@
 
                     <div class="grid-item">
                         <div class="label">Carga y Commodities</div>
-                        <i class="ph ph-package service-icon"></i>
+                        <img src="assets/iconControlCalidad.svg" alt="Control de Calidad" class="custom-icon">
                         <h3>Control de Calidad</h3>
                         <p>Control riguroso de cantidad y calidad (QQ) para todo tipo de mercancías y graneles.</p>
                         <ul class="service-list">
@@ -125,7 +128,7 @@
 
                     <div class="grid-item">
                         <div class="label">Asesoría Legal</div>
-                        <i class="ph ph-scales service-icon"></i>
+                        <img src="assets/iconLegal.svg" alt="Asesoría Legal" class="custom-icon">
                         <h3>Derecho Marítimo</h3>
                         <p>Especialistas en fletamentos, reclamos comerciales e intermediación internacional.</p>
                         <ul class="service-list">
@@ -207,6 +210,7 @@
                 </div>
                 <div class="grid-container differentials-grid">
                     <div class="grid-item differential-item">
+                        <img src="assets/iconOperation.svg" alt="Rapidez Operativa" class="custom-icon differential-icon">
                         <span class="diff-number">01</span>
                         <h3>Rapidez Operativa</h3>
                         <p>Reportes preliminares en 24h. No paralizamos la operación de su buque.</p>
@@ -234,7 +238,7 @@
                     <div class="grid-item differential-item">
                         <span class="diff-number">06</span>
                         <h3>Atención Local 24/7</h3>
-                        <p>Inspectores en Panamá con disponibilidad inmediata.</p>
+                        <p>Inspectores en Venezuela con disponibilidad inmediata.</p>
                     </div>
                 </div>
             </div>
@@ -246,11 +250,11 @@
                 <div class="section-header">
                     <span class="label">05 // Nosotros</span>
                     <h2>ITB Maritime Services</h2>
-                    <p>Excelencia marítima desde Panamá para el mundo</p>
+                    <p>Excelencia marítima desde Venezuela para el mundo</p>
                 </div>
                 <div class="about-content">
                     <div class="about-text">
-                        <p>Somos una firma de inspecciones técnicas de buques con sede en Panamá, operando bajo los más altos estándares internacionales <strong>SOLAS y MARPOL</strong>.</p>
+                        <p>Somos una firma de inspecciones técnicas de buques con sede en Venezuela, operando bajo los más altos estándares internacionales <strong>SOLAS y MARPOL</strong>.</p>
                         <p>Nuestro diferencial: <strong>rapidez operativa sin precedentes</strong> — entregamos reportes en 48-72 horas, cuando la industria ofrece 10-15 días.</p>
                         <p>Gracias a nuestra integración con <strong>UCTI Holding</strong>, ofrecemos un ecosistema integral que incluye reparaciones navales, inspecciones sub-acuáticas, servicios de carga y asesoría legal marítima.</p>
                     </div>
@@ -286,21 +290,21 @@
                             <i class="ph ph-phone"></i>
                             <div>
                                 <h4>Teléfono</h4>
-                                <p>+507 0000-0000</p>
+                                <p>+58 424 241 5592</p>
                             </div>
                         </div>
                         <div class="contact-item">
                             <i class="ph ph-envelope"></i>
                             <div>
                                 <h4>Email</h4>
-                                <p>info@itbmaritime.com</p>
+                                <p>inspeccionesitb@gmail.com</p>
                             </div>
                         </div>
                         <div class="contact-item">
                             <i class="ph ph-map-pin"></i>
                             <div>
                                 <h4>Ubicación</h4>
-                                <p>Ciudad de Panamá, Panamá</p>
+                                <p>Caracas, Venezuela</p>
                             </div>
                         </div>
                         <div class="contact-item">
@@ -339,7 +343,8 @@
                             <label for="message">Mensaje</label>
                             <textarea id="message" name="message" rows="4" placeholder="Describe tu requerimiento..."></textarea>
                         </div>
-                        <button type="submit" class="btn-primary">Enviar Mensaje</button>
+                        <button type="submit" class="btn-primary" id="submit-btn">Enviar Mensaje</button>
+                        <p class="form-status" id="form-status"></p>
                     </form>
                 </div>
             </div>
@@ -351,7 +356,7 @@
                 <div class="footer-grid">
                     <div class="footer-brand">
                         <h2>ITB<span>_</span></h2>
-                        <p>Excelencia marítima desde Panamá para el mundo.</p>
+                        <p>Excelencia marítima desde Venezuela para el mundo.</p>
                     </div>
                     <div class="footer-column">
                         <h4>Servicios</h4>
@@ -374,15 +379,15 @@
                     <div class="footer-column">
                         <h4>Contacto</h4>
                         <ul>
-                            <li>+507 0000-0000</li>
-                            <li>info@itbmaritime.com</li>
-                            <li>Ciudad de Panamá</li>
+                            <li>+58 424 241 5592</li>
+                            <li>inspeccionesitb@gmail.com</li>
+                            <li>Caracas</li>
                         </ul>
                     </div>
                 </div>
                 <div class="footer-bottom">
                     <p>&copy; 2026 ITB Maritime Services. Todos los derechos reservados.</p>
-                    <p>Designed with Antigravity</p>
+                    <p>Designed by TalgidiCodes</p>
                 </div>
             </div>
         </footer>
