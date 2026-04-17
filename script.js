@@ -245,6 +245,7 @@ document.addEventListener('DOMContentLoaded', () => {
         scrollY = window.scrollY;
     });
 
+    const cylinderRadius = 2.0;
     let time = 0;
     let letteringAsset = null;
     function animate() {
