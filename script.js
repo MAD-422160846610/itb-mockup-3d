@@ -289,8 +289,12 @@ document.addEventListener('DOMContentLoaded', () => {
         // Floating Branding Update
         if (letteringAsset) {
             // Gentle floating physics independent of the main scroll twist
-            letteringAsset.position.x = Math.sin(time * 1.5) * 0.05;
-            letteringAsset.position.y = Math.sin(time * 2.0) * 0.1;
+            // Calibrated offsets to align perfectly with the visual torsion center (moved left and up)
+            const offsetX = -0.25;
+            const offsetY = 0.25;
+            
+            letteringAsset.position.x = offsetX + Math.sin(time * 1.5) * 0.05;
+            letteringAsset.position.y = offsetY + Math.sin(time * 2.0) * 0.1;
             letteringAsset.position.z = 1.0 + Math.cos(time * 1.2) * 0.05;
             letteringAsset.rotation.x = Math.cos(time * 2.5) * 0.02;
             letteringAsset.rotation.y = Math.sin(time * 1.0) * 0.03;
