@@ -180,6 +180,31 @@ h1, h2, h3, h4 {
 .section-header {
     text-align: center;
     padding: 8rem 5% 4rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.side-by-side {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.hero-text .side-by-side {
+    justify-content: flex-start;
+}
+
+.section-header .side-by-side {
+    justify-content: center;
+}
+
+.side-by-side .label, 
+.side-by-side .custom-icon, 
+.side-by-side .hero-logo {
+    margin-bottom: 0 !important;
+    width: 48px;
 }
 
 .section-header h2 {
