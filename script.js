@@ -277,36 +277,27 @@ document.addEventListener('DOMContentLoaded', () => {
             const frontScore = Math.pow(Math.max(0, cosTwist), 2); 
             const backScore = Math.pow(Math.max(0, -cosTwist), 2); 
             
-            group.children.forEach(child => {
-                const ud = child.userData;
-                if (ud && ud.isAsset) {
-                    const isLettering = ud.isLettering;
-                    const isLogo = ud.isLogo;
-                    
-                    // Permissive visibility mapping
-                    let targetOpacity = 0;
-                    if (isLettering) {
-                        // Lettering appears in the BACK phase (backScore)
-                        // Using a softer curve to make it visible for longer
-                        targetOpacity = Math.sqrt(Math.max(0, backScore)) * 2.0; 
-                    } else {
-                        // Ships and Logo appear in the FRONT phase (frontScore)
-                        targetOpacity = frontScore * 1.0;
+            const ud = group.userData;
+            if (ud && ud.isAsset) {
+                const isLettering = ud.isLettering;
+                const isLogo = ud.isLogo;
+                
+                // Final Visibility Phase Mapping
+                // Ships/Logo -> Visual Front (backScore)
+                // Lettering -> Visual Back (frontScore)
+                let targetOpacity = isLettering ? (frontScore * 1.5) : (backScore * 1.0);
+                
+                group.children.forEach(child => {
+                    if (child.material) {
+                        child.material.opacity = Math.min(1, targetOpacity);
+                        child.material.transparent = true;
+                        child.visible = targetOpacity > 0.05;
+                        
+                        if (isLogo) child.renderOrder = 50;
+                        if (isLettering) child.renderOrder = 100;
                     }
-                    
-                    child.traverse(node => {
-                        if (node.material) {
-                            node.material.opacity = Math.min(1, targetOpacity);
-                            node.material.transparent = true;
-                            node.visible = targetOpacity > 0.05;
-                            
-                            // High priority for branding
-                            if (isLogo) node.renderOrder = 50;
-                            if (isLettering) node.renderOrder = 100;
-                        }
-                    });
-                }
-            });
+                });
+            }
         });
 
         renderer.render(scene, camera);
