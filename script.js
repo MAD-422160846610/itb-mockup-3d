@@ -245,7 +245,6 @@ document.addEventListener('DOMContentLoaded', () => {
         scrollY = window.scrollY;
     });
 
-    const cylinderRadius = 2.0;
     let time = 0;
     let letteringAsset = null;
     function animate() {
@@ -263,14 +262,15 @@ document.addEventListener('DOMContentLoaded', () => {
             const surge = Math.cos(time * 1.5 + waveOffset) * 0.2;
             const twist = (i - 6) * 0.2 + (scrollPercent * Math.PI * 2) + (tide * 0.1);
 
-            // Torsion physics and Wave motion
-            group.position.x = (Math.cos(twist) * cylinderRadius) + surge;
-            group.position.z = Math.sin(twist) * cylinderRadius;
+            // Harmonious wave motion (Restored)
+            group.rotation.y = twist;
+            group.rotation.z = Math.sin(time * 3 + waveOffset) * 0.08;
+            
+            group.position.x = (Math.sin(twist) * 0.2) + surge;
             group.position.y = (i - count / 2) * 0.25 + tide;
+            group.position.z = 0;
             
             group.rotation.x = Math.cos(time * 2.5 + waveOffset) * 0.05;
-            group.rotation.y = -twist + Math.PI / 2;
-            group.rotation.z = Math.sin(time * 3 + waveOffset) * 0.08;
 
             // Visibility logic for elements inside the group (Ships)
             const cosTwist = Math.cos(twist);
@@ -286,11 +286,16 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
 
-        // Static Branding Update
+        // Floating Branding Update
         if (letteringAsset) {
-            letteringAsset.position.x = 0;
-            letteringAsset.position.z = 1.0; // Slightly forward
-            letteringAsset.rotation.y = 0;
+            // Gentle floating physics independent of the main scroll twist
+            letteringAsset.position.x = Math.sin(time * 1.5) * 0.05;
+            letteringAsset.position.y = Math.sin(time * 2.0) * 0.1;
+            letteringAsset.position.z = 1.0 + Math.cos(time * 1.2) * 0.05;
+            letteringAsset.rotation.x = Math.cos(time * 2.5) * 0.02;
+            letteringAsset.rotation.y = Math.sin(time * 1.0) * 0.03;
+            letteringAsset.rotation.z = Math.sin(time * 1.8) * 0.02;
+
             letteringAsset.children.forEach(child => {
                 if (child.material) {
                     child.material.opacity = 1.0;
