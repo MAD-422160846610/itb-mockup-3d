@@ -255,7 +255,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const scrollPercent = scrollY / (document.documentElement.scrollHeight - window.innerHeight);
         
-        stack.forEach((group, i) => {
+        torsionMeshes.forEach((group, i) => {
             const ud = group.userData;
             const waveOffset = i * 0.4;
             const tide = Math.sin(time * 2 + waveOffset) * 0.15;
