@@ -282,26 +282,30 @@ document.addEventListener('DOMContentLoaded', () => {
                 const isLettering = ud.isLettering;
                 const isLogo = ud.isLogo;
                 
-                // Sharp transitions (POW 3)
-                const fScore = Math.pow(Math.max(0, frontScore), 3);
-                const bScore = Math.pow(Math.max(0, backScore), 3);
+                // Ultra-sharp transitions (POW 10) to ensure absolute exclusivity
+                const fScore = Math.pow(Math.max(0, frontScore), 10);
+                const bScore = Math.pow(Math.max(0, backScore), 10);
                 
                 // Logic: 
-                // Ships and Logo -> Visual Front (fScore)
-                // Lettering ITB -> Visual Back/Rotation (bScore)
+                // Ships and Logo -> Absolute Front (fScore)
+                // Lettering ITB -> Absolute Back/Rotation (bScore)
                 let targetOpacity = isLettering ? (bScore * 2.0) : (fScore * 1.0);
                 
                 group.children.forEach(child => {
                     if (child.material) {
                         child.material.opacity = Math.min(1, targetOpacity);
                         child.material.transparent = true;
-                        child.visible = targetOpacity > 0.05;
+                        child.visible = targetOpacity > 0.1;
                         
                         if (isLogo || isLettering) {
-                            child.renderOrder = 100;
-                            // Ensure they don't clip with each other if overlapping slightly
-                            child.material.depthTest = true;
+                            child.renderOrder = 999;
+                            child.material.depthTest = false;
                             child.material.depthWrite = false;
+                        } else {
+                            // Standard ship icons
+                            child.renderOrder = 10;
+                            child.material.depthTest = true;
+                            child.material.depthWrite = true;
                         }
                     }
                 });
