@@ -283,17 +283,26 @@ document.addEventListener('DOMContentLoaded', () => {
                     const isLettering = ud.isLettering;
                     const isLogo = ud.isLogo;
                     
-                    // Corrected mapping: 
-                    // Ships and Logo -> frontScore (Visual FRONT)
-                    // Lettering -> backScore (Visual BACK)
-                    let targetOpacity = isLettering ? (backScore * 1.5) : (frontScore * 1.0);
+                    // Permissive visibility mapping
+                    let targetOpacity = 0;
+                    if (isLettering) {
+                        // Lettering appears in the BACK phase (backScore)
+                        // Using a softer curve to make it visible for longer
+                        targetOpacity = Math.sqrt(Math.max(0, backScore)) * 2.0; 
+                    } else {
+                        // Ships and Logo appear in the FRONT phase (frontScore)
+                        targetOpacity = frontScore * 1.0;
+                    }
                     
                     child.traverse(node => {
                         if (node.material) {
-                            node.material.opacity = targetOpacity;
+                            node.material.opacity = Math.min(1, targetOpacity);
                             node.material.transparent = true;
-                            node.visible = targetOpacity > 0.01;
-                            if (isLogo || isLettering) node.renderOrder = 20;
+                            node.visible = targetOpacity > 0.05;
+                            
+                            // High priority for branding
+                            if (isLogo) node.renderOrder = 50;
+                            if (isLettering) node.renderOrder = 100;
                         }
                     });
                 }
