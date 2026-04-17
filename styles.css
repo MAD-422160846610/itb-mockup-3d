@@ -15,7 +15,7 @@
     --text-muted: #9DC3C2;
     --gray-border: #1E3A5F;
     --heading-color: var(--white);
-    --logo-color: var(--white);
+    --logo-color: var(--gold);
     
     --font-serif: 'Montserrat', sans-serif;
     --font-sans: 'Open Sans', sans-serif;
@@ -452,7 +452,7 @@ h1, h2, h3, h4 {
 }
 
 .nav-logo span {
-    color: var(--red) !important;
+    color: var(--gold) !important;
 }
 
 .nav-links {
