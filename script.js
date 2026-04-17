@@ -246,6 +246,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     let time = 0;
+    let letteringAsset = null;
     function animate() {
         requestAnimationFrame(animate);
         time += 0.02;
@@ -255,58 +256,50 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const scrollPercent = scrollY / (document.documentElement.scrollHeight - window.innerHeight);
         
-        torsionMeshes.forEach((group, i) => {
-            const ud = group.userData;
+        stack.forEach((group, i) => {
             const waveOffset = i * 0.4;
             const tide = Math.sin(time * 2 + waveOffset) * 0.15;
             const surge = Math.cos(time * 1.5 + waveOffset) * 0.2;
             const twist = (i - 6) * 0.2 + (scrollPercent * Math.PI * 2) + (tide * 0.1);
 
-            if (ud && ud.isLettering) {
-                // STATIC BRANDING: Anchored at center, y-position follows the stack
-                group.position.x = 0;
-                group.position.z = 0;
-                group.position.y = (i - count / 2) * 0.25 + tide;
-                group.rotation.set(0, 0, 0);
-                
-                group.children.forEach(child => {
-                    if (child.material) {
-                        child.material.opacity = 1.0;
-                        child.material.transparent = true;
-                        child.visible = true;
-                        child.renderOrder = 999;
-                        child.material.depthTest = false;
-                        child.material.depthWrite = false;
-                    }
-                });
-            } else {
-                // DYNAMIC ELEMENTS: Torsion physics and Wave motion
-                group.position.x = (Math.cos(twist) * cylinderRadius) + surge;
-                group.position.z = Math.sin(twist) * cylinderRadius;
-                group.position.y = (i - count / 2) * 0.25 + tide;
-                
-                group.rotation.x = Math.cos(time * 2.5 + waveOffset) * 0.05;
-                group.rotation.y = -twist + Math.PI / 2;
-                group.rotation.z = Math.sin(time * 3 + waveOffset) * 0.08;
+            // Torsion physics and Wave motion
+            group.position.x = (Math.cos(twist) * cylinderRadius) + surge;
+            group.position.z = Math.sin(twist) * cylinderRadius;
+            group.position.y = (i - count / 2) * 0.25 + tide;
+            
+            group.rotation.x = Math.cos(time * 2.5 + waveOffset) * 0.05;
+            group.rotation.y = -twist + Math.PI / 2;
+            group.rotation.z = Math.sin(time * 3 + waveOffset) * 0.08;
 
-                if (ud && ud.isAsset) {
-                    // Ship visibility logic
-                    const cosTwist = Math.cos(twist);
-                    const targetOpacity = Math.pow(Math.max(0, cosTwist), 3);
-                    
-                    group.children.forEach(child => {
-                        if (child.material) {
-                            child.material.opacity = targetOpacity;
-                            child.material.transparent = true;
-                            child.visible = targetOpacity > 0.05;
-                            child.renderOrder = 10;
-                            child.material.depthTest = true;
-                            child.material.depthWrite = true;
-                        }
-                    });
+            // Visibility logic for elements inside the group (Ships)
+            const cosTwist = Math.cos(twist);
+            const targetOpacity = Math.pow(Math.max(0, cosTwist), 3);
+            
+            group.children.forEach(child => {
+                // If it's a ship mesh
+                if (child.userData && child.userData.isShip) {
+                    child.material.opacity = targetOpacity;
+                    child.material.transparent = true;
+                    child.visible = targetOpacity > 0.05;
                 }
-            }
+            });
         });
+
+        // Static Branding Update
+        if (letteringAsset) {
+            letteringAsset.position.x = 0;
+            letteringAsset.position.z = 1.0; // Slightly forward
+            letteringAsset.rotation.y = 0;
+            letteringAsset.children.forEach(child => {
+                if (child.material) {
+                    child.material.opacity = 1.0;
+                    child.material.transparent = true;
+                    child.visible = true;
+                    child.renderOrder = 999;
+                    child.material.depthTest = false;
+                }
+            });
+        }
 
         renderer.render(scene, camera);
     }
@@ -372,7 +365,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 group.position.y = -center.y;
                 group.position.z = 0.5;
 
-                if (stack[asset.index]) {
+                if (group.userData.isLettering) {
+                    letteringAsset = group;
+                    scene.add(group);
+                } else if (stack[asset.index]) {
+                    // Mark children as ships for visibility logic
+                    group.children.forEach(c => c.userData.isShip = true);
                     stack[asset.index].add(group);
                 }
             }, undefined, (error) => {
