@@ -256,57 +256,47 @@ document.addEventListener('DOMContentLoaded', () => {
         const scrollPercent = scrollY / (document.documentElement.scrollHeight - window.innerHeight);
         
         stack.forEach((group, i) => {
+            const ud = group.userData;
             const waveOffset = i * 0.4;
             const tide = Math.sin(time * 2 + waveOffset) * 0.15;
             const surge = Math.cos(time * 1.5 + waveOffset) * 0.2;
-            
             const twist = (i - 6) * 0.2 + (scrollPercent * Math.PI * 2) + (tide * 0.1);
-            
-            group.rotation.y = twist;
-            group.rotation.z = Math.sin(time * 3 + waveOffset) * 0.08;
-            
-            group.position.x = (Math.sin(twist) * 0.2) + surge;
-            group.position.y = (i - count / 2) * 0.25 + tide;
-            
-            group.rotation.x = Math.cos(time * 2.5 + waveOffset) * 0.05;
 
-            // 💡 CONDITIONAL VISIBILITY LOGIC (Lettering vs Ships)
-            // twist near 0 -> Front (Ships visible)
-            // twist near PI -> Back (Lettering visible)
-            const cosTwist = Math.cos(twist);
-            const frontScore = Math.pow(Math.max(0, cosTwist), 2); 
-            const backScore = Math.pow(Math.max(0, -cosTwist), 2); 
-            
-            const ud = group.userData;
-            if (ud && ud.isAsset) {
-                const isLettering = ud.isLettering;
+            if (ud && ud.isLettering) {
+                // STATIC BRANDING: Anchored at center, y-position follows the stack
+                group.position.x = 0;
+                group.position.z = 0;
+                group.position.y = (i - count / 2) * 0.25 + tide;
+                group.rotation.set(0, 0, 0);
                 
-                if (isLettering) {
-                    // STATIC LETTERING: Always central, always facing camera, always visible
-                    group.position.set(0, group.position.y, 0); 
-                    group.rotation.y = 0;
-                    
-                    group.children.forEach(child => {
-                        if (child.material) {
-                            child.material.opacity = 1.0;
-                            child.material.transparent = true;
-                            child.visible = true;
-                            child.renderOrder = 999;
-                            child.material.depthTest = false;
-                            child.material.depthWrite = false;
-                        }
-                    });
-                } else {
-                    // DYNAMIC SHIPS: Rotating with the torsion
-                    const fScore = Math.pow(Math.max(0, frontScore), 10);
-                    const bScore = Math.pow(Math.max(0, -cosTwist), 10); // Simplified backscore
-                    
-                    // Ships are on visual front
+                group.children.forEach(child => {
+                    if (child.material) {
+                        child.material.opacity = 1.0;
+                        child.material.transparent = true;
+                        child.visible = true;
+                        child.renderOrder = 999;
+                        child.material.depthTest = false;
+                        child.material.depthWrite = false;
+                    }
+                });
+            } else {
+                // DYNAMIC ELEMENTS: Torsion physics and Wave motion
+                group.position.x = (Math.cos(twist) * cylinderRadius) + surge;
+                group.position.z = Math.sin(twist) * cylinderRadius;
+                group.position.y = (i - count / 2) * 0.25 + tide;
+                
+                group.rotation.x = Math.cos(time * 2.5 + waveOffset) * 0.05;
+                group.rotation.y = -twist + Math.PI / 2;
+                group.rotation.z = Math.sin(time * 3 + waveOffset) * 0.08;
+
+                if (ud && ud.isAsset) {
+                    // Ship visibility logic
+                    const cosTwist = Math.cos(twist);
                     const targetOpacity = Math.pow(Math.max(0, cosTwist), 3);
                     
                     group.children.forEach(child => {
                         if (child.material) {
-                            child.material.opacity = Math.min(1, targetOpacity);
+                            child.material.opacity = targetOpacity;
                             child.material.transparent = true;
                             child.visible = targetOpacity > 0.05;
                             child.renderOrder = 10;
