@@ -278,22 +278,21 @@ document.addEventListener('DOMContentLoaded', () => {
             const backScore = Math.pow(Math.max(0, -cosTwist), 2); 
             
             group.children.forEach(child => {
-                if (child.userData && child.userData.isITB !== undefined) {
-                    const isITB = child.userData.isITB;
-                    // Corrected mapping based on user feedback:
-                    // Ships (isITB=false) -> backScore (verified as visual front)
-                    // Branding (isITB=true) -> frontScore (verified as visual back)
-                    const targetOpacity = isITB ? (frontScore * 1.5) : (backScore * 1.0);
+                const ud = child.userData;
+                if (ud && ud.isAsset) {
+                    const isLettering = ud.isLettering;
+                    const isLogo = ud.isLogo;
+                    
+                    // Logic: Ships and Logo appear at visual FRONT (backScore)
+                    // Lettering appears ONLY at visual BACK (frontScore)
+                    let targetOpacity = isLettering ? (frontScore * 1.5) : (backScore * 1.0);
                     
                     child.traverse(node => {
                         if (node.material) {
                             node.material.opacity = targetOpacity;
                             node.material.transparent = true;
                             node.visible = targetOpacity > 0.01;
-                            
-                            if (isITB) {
-                                node.renderOrder = 20;
-                            }
+                            if (isLogo || isLettering) node.renderOrder = 20;
                         }
                     });
                 }
@@ -329,7 +328,9 @@ document.addEventListener('DOMContentLoaded', () => {
             loader.load(asset.url, (data) => {
                 const paths = data.paths;
                 const group = new THREE.Group();
-                group.userData.isITB = asset.url.toLowerCase().includes('itb') || asset.url.toLowerCase().includes('lettering');
+                group.userData.isLogo = asset.url.toLowerCase().includes('logoitb');
+                group.userData.isLettering = asset.url.toLowerCase().includes('letteringitb');
+                group.userData.isAsset = true; // Meta tag
 
                 for (let i = 0; i < paths.length; i++) {
                     const path = paths[i];
