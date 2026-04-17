@@ -330,7 +330,6 @@ document.addEventListener('DOMContentLoaded', () => {
             { url: originUrl + 'assets/shipGeneralCargo.svg', index: 0, scale: 0.001 },
             { url: originUrl + 'assets/shipContainer.svg', index: 2, scale: 0.001 },
             { url: originUrl + 'assets/shipBulkCarrier.svg', index: 4, scale: 0.001 },
-            { url: originUrl + 'assets/logoITB.svg', index: 6, scale: 0.0015 },
             { url: originUrl + 'assets/letteringITB.svg', index: 6, scale: 0.0015 },
             { url: originUrl + 'assets/shipHeavyLiftVessel.svg', index: 8, scale: 0.001 },
             { url: originUrl + 'assets/shipTanker.svg', index: 10, scale: 0.001 },
