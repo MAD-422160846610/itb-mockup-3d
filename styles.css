@@ -228,6 +228,27 @@ h1, h2, h3, h4 {
     transform: translateY(-5px);
 }
 
+.fleet-svg {
+    width: 100%;
+    max-width: 140px;
+    height: 60px;
+    object-fit: contain;
+    margin: 0 auto 2rem;
+    display: block;
+    filter: brightness(0) invert(1); /* Makes them white for dark theme by default */
+    opacity: 0.8;
+    transition: all 0.3s ease;
+}
+
+.fleet-item:hover .fleet-svg {
+    opacity: 1;
+    transform: scale(1.1);
+}
+
+.light-theme .fleet-svg {
+    filter: brightness(0) saturate(100%); /* Makes them black/navy for light theme */
+}
+
 .fleet-item h3 {
     font-size: 1.25rem;
     margin-bottom: 0.5rem;
