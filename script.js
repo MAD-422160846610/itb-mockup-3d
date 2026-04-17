@@ -269,6 +269,28 @@ document.addEventListener('DOMContentLoaded', () => {
             group.position.y = (i - count / 2) * 0.25 + tide;
             
             group.rotation.x = Math.cos(time * 2.5 + waveOffset) * 0.05;
+
+            // 💡 CONDITIONAL VISIBILITY LOGIC (Lettering vs Ships)
+            // twist near 0 -> Front (Ships visible)
+            // twist near PI -> Back (Lettering visible)
+            const cosTwist = Math.cos(twist);
+            const frontScore = Math.pow(Math.max(0, cosTwist), 2); 
+            const backScore = Math.pow(Math.max(0, -cosTwist), 2); 
+            
+            group.children.forEach(child => {
+                if (child.userData && child.userData.isITB !== undefined) {
+                    const isITB = child.userData.isITB;
+                    const targetOpacity = isITB ? (backScore * 1.0) : (frontScore * 0.9);
+                    
+                    child.traverse(node => {
+                        if (node.material) {
+                            node.material.opacity = targetOpacity;
+                            node.material.transparent = true;
+                            node.visible = targetOpacity > 0.01;
+                        }
+                    });
+                }
+            });
         });
 
         renderer.render(scene, camera);
@@ -285,22 +307,21 @@ document.addEventListener('DOMContentLoaded', () => {
         const originUrl = window.location.href.includes('github.io') 
             ? 'https://mad-422160846610.github.io/itb-mockup-3d/' 
             : '';
-        const cb = '?v=2';
-
         const svgAssets = [
-            { url: originUrl + 'assets/shipGeneralCargo.svg' + cb, index: 0, scale: 0.001 },
-            { url: originUrl + 'assets/shipContainer.svg' + cb, index: 2, scale: 0.001 },
-            { url: originUrl + 'assets/shipBulkCarrier.svg' + cb, index: 4, scale: 0.001 },
-            { url: originUrl + 'assets/logoITB.svg' + cb, index: 6, scale: 0.0015 },
-            { url: originUrl + 'assets/shipHeavyLiftVessel.svg' + cb, index: 8, scale: 0.001 },
-            { url: originUrl + 'assets/shipTanker.svg' + cb, index: 10, scale: 0.001 },
-            { url: originUrl + 'assets/shipRoro.svg' + cb, index: 12, scale: 0.001 }
+            { url: originUrl + 'assets/shipGeneralCargo.svg', index: 0, scale: 0.001 },
+            { url: originUrl + 'assets/shipContainer.svg', index: 2, scale: 0.001 },
+            { url: originUrl + 'assets/shipBulkCarrier.svg', index: 4, scale: 0.001 },
+            { url: originUrl + 'assets/logoITB.svg', index: 6, scale: 0.0015 },
+            { url: originUrl + 'assets/shipHeavyLiftVessel.svg', index: 8, scale: 0.001 },
+            { url: originUrl + 'assets/shipTanker.svg', index: 10, scale: 0.001 },
+            { url: originUrl + 'assets/shipRoro.svg', index: 12, scale: 0.001 }
         ];
 
         svgAssets.forEach(asset => {
             loader.load(asset.url, (data) => {
                 const paths = data.paths;
                 const group = new THREE.Group();
+                group.userData.isITB = asset.url.toLowerCase().includes('itb') || asset.url.toLowerCase().includes('lettering');
 
                 for (let i = 0; i < paths.length; i++) {
                     const path = paths[i];
@@ -309,10 +330,14 @@ document.addEventListener('DOMContentLoaded', () => {
                         side: THREE.DoubleSide,
                         depthWrite: false,
                         transparent: true,
-                        opacity: 0.6
+                        opacity: 1.0
                     });
 
-                    const shapes = THREE.SVGLoader.createShapes(path);
+                    // Compatibility check for shape creation
+                    const shapes = (typeof THREE.SVGLoader.createShapes === 'function') 
+                        ? THREE.SVGLoader.createShapes(path) 
+                        : path.toShapes(true);
+
                     for (let j = 0; j < shapes.length; j++) {
                         const shape = shapes[j];
                         const geometry = new THREE.ShapeGeometry(shape);
@@ -320,29 +345,21 @@ document.addEventListener('DOMContentLoaded', () => {
                         group.add(mesh);
                     }
                 }
-
+                
                 group.scale.set(asset.scale, -asset.scale, asset.scale);
                 
+                // Centering logic
                 const box = new THREE.Box3().setFromObject(group);
                 const center = box.getCenter(new THREE.Vector3());
-                
                 group.position.x = -center.x;
                 group.position.y = -center.y;
                 group.position.z = 0.5;
-                
+
                 if (stack[asset.index]) {
                     stack[asset.index].add(group);
-                    stack[asset.index].children.forEach(child => {
-                        if (child.material && child.material.map) {
-                            child.material.opacity = 0.3;
-                        }
-                    });
                 }
-            }, 
-            // Error handler
-            undefined,
-            (error) => {
-                console.warn('Failed to load SVG:', asset.url, error);
+            }, undefined, (error) => {
+                console.warn(`Error loading asset ${asset.url}:`, error);
             });
         });
     }
