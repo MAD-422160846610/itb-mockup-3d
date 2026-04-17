@@ -280,35 +280,41 @@ document.addEventListener('DOMContentLoaded', () => {
             const ud = group.userData;
             if (ud && ud.isAsset) {
                 const isLettering = ud.isLettering;
-                const isLogo = ud.isLogo;
                 
-                // Ultra-sharp transitions (POW 10) to ensure absolute exclusivity
-                const fScore = Math.pow(Math.max(0, frontScore), 10);
-                const bScore = Math.pow(Math.max(0, backScore), 10);
-                
-                // Logic: 
-                // Ships and Logo -> Absolute Front (fScore)
-                // Lettering ITB -> Absolute Back/Rotation (bScore)
-                let targetOpacity = isLettering ? (bScore * 2.0) : (fScore * 1.0);
-                
-                group.children.forEach(child => {
-                    if (child.material) {
-                        child.material.opacity = Math.min(1, targetOpacity);
-                        child.material.transparent = true;
-                        child.visible = targetOpacity > 0.1;
-                        
-                        if (isLogo || isLettering) {
+                if (isLettering) {
+                    // STATIC LETTERING: Always central, always facing camera, always visible
+                    group.position.set(0, group.position.y, 0); 
+                    group.rotation.y = 0;
+                    
+                    group.children.forEach(child => {
+                        if (child.material) {
+                            child.material.opacity = 1.0;
+                            child.material.transparent = true;
+                            child.visible = true;
                             child.renderOrder = 999;
                             child.material.depthTest = false;
                             child.material.depthWrite = false;
-                        } else {
-                            // Standard ship icons
+                        }
+                    });
+                } else {
+                    // DYNAMIC SHIPS: Rotating with the torsion
+                    const fScore = Math.pow(Math.max(0, frontScore), 10);
+                    const bScore = Math.pow(Math.max(0, -cosTwist), 10); // Simplified backscore
+                    
+                    // Ships are on visual front
+                    const targetOpacity = Math.pow(Math.max(0, cosTwist), 3);
+                    
+                    group.children.forEach(child => {
+                        if (child.material) {
+                            child.material.opacity = Math.min(1, targetOpacity);
+                            child.material.transparent = true;
+                            child.visible = targetOpacity > 0.05;
                             child.renderOrder = 10;
                             child.material.depthTest = true;
                             child.material.depthWrite = true;
                         }
-                    }
-                });
+                    });
+                }
             }
         });
 
