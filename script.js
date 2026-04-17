@@ -280,17 +280,18 @@ document.addEventListener('DOMContentLoaded', () => {
             group.children.forEach(child => {
                 if (child.userData && child.userData.isITB !== undefined) {
                     const isITB = child.userData.isITB;
-                    // DEBUG: Force logo visibility to find it
-                    const targetOpacity = isITB ? 1.0 : (backScore * 1.0);
+                    // Properly inverted to match actual visual results:
+                    // Ships (isITB=false) appear at the "backScore" phase
+                    // Branding (isITB=true) appears at the "frontScore" phase
+                    const targetOpacity = isITB ? (frontScore * 1.5) : (backScore * 1.0);
                     
                     child.traverse(node => {
                         if (node.material) {
                             node.material.opacity = targetOpacity;
                             node.material.transparent = true;
-                            node.visible = isITB ? true : (targetOpacity > 0.01);
+                            node.visible = targetOpacity > 0.01;
                             
                             if (isITB) {
-                                node.material.color.setHex(0xff0000); // Temporary RED for debugging
                                 node.renderOrder = 20;
                             }
                         }
@@ -317,7 +318,8 @@ document.addEventListener('DOMContentLoaded', () => {
             { url: originUrl + 'assets/shipGeneralCargo.svg', index: 0, scale: 0.001 },
             { url: originUrl + 'assets/shipContainer.svg', index: 2, scale: 0.001 },
             { url: originUrl + 'assets/shipBulkCarrier.svg', index: 4, scale: 0.001 },
-            { url: originUrl + 'assets/logoITB.svg', index: 6, scale: 0.003 }, // Larger scale for visibility
+            { url: originUrl + 'assets/logoITB.svg', index: 6, scale: 0.0015 },
+            { url: originUrl + 'assets/letteringITB.svg', index: 6, scale: 0.0015 },
             { url: originUrl + 'assets/shipHeavyLiftVessel.svg', index: 8, scale: 0.001 },
             { url: originUrl + 'assets/shipTanker.svg', index: 10, scale: 0.001 },
             { url: originUrl + 'assets/shipRoro.svg', index: 12, scale: 0.001 }
