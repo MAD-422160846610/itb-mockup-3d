@@ -157,7 +157,7 @@ document.addEventListener('DOMContentLoaded', () => {
     canvas.height = 512;
 
     const maritimeData = [
-        "LAT: 8.9833° N", "LON: 79.5167° W", 
+        "LAT: 10.4806° N", "LON: 66.9036° W", 
         "MMSI: 351465000", "IMO: 9474773",
         "STATUS: UNDERWAY", "COURSE: 142°",
         "ITB-CERT-2026-X4", "SOLAS-III/20",
