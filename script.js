@@ -280,16 +280,18 @@ document.addEventListener('DOMContentLoaded', () => {
             group.children.forEach(child => {
                 if (child.userData && child.userData.isITB !== undefined) {
                     const isITB = child.userData.isITB;
-                    // Properly inverted to match actual visual results:
-                    // Ships (isITB=false) appear at the "backScore" phase now
-                    // Logo (isITB=true) appears at the "frontScore" phase
-                    const targetOpacity = isITB ? (frontScore * 1.2) : (backScore * 1.0);
+                    // Logic verified by user results:
+                    // backScore = Front visibility for ships
+                    // frontScore = Back visibility for logo
+                    const targetOpacity = isITB ? (frontScore * 1.5) : (backScore * 1.0);
                     
                     child.traverse(node => {
                         if (node.material) {
                             node.material.opacity = targetOpacity;
                             node.material.transparent = true;
                             node.visible = targetOpacity > 0.01;
+                            // Ensure logo is always drawn on top of the torsion planes
+                            if (isITB) node.renderOrder = 10;
                         }
                     });
                 }
@@ -314,7 +316,7 @@ document.addEventListener('DOMContentLoaded', () => {
             { url: originUrl + 'assets/shipGeneralCargo.svg', index: 0, scale: 0.001 },
             { url: originUrl + 'assets/shipContainer.svg', index: 2, scale: 0.001 },
             { url: originUrl + 'assets/shipBulkCarrier.svg', index: 4, scale: 0.001 },
-            { url: originUrl + 'assets/logoITB.svg', index: 6, scale: 0.0015 },
+            { url: originUrl + 'assets/logoITB.svg', index: 6, scale: 0.003 }, // Larger scale for visibility
             { url: originUrl + 'assets/shipHeavyLiftVessel.svg', index: 8, scale: 0.001 },
             { url: originUrl + 'assets/shipTanker.svg', index: 10, scale: 0.001 },
             { url: originUrl + 'assets/shipRoro.svg', index: 12, scale: 0.001 }
