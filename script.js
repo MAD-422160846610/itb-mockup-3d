@@ -280,18 +280,19 @@ document.addEventListener('DOMContentLoaded', () => {
             group.children.forEach(child => {
                 if (child.userData && child.userData.isITB !== undefined) {
                     const isITB = child.userData.isITB;
-                    // Logic verified by user results:
-                    // backScore = Front visibility for ships
-                    // frontScore = Back visibility for logo
-                    const targetOpacity = isITB ? (frontScore * 1.5) : (backScore * 1.0);
+                    // DEBUG: Force logo visibility to find it
+                    const targetOpacity = isITB ? 1.0 : (backScore * 1.0);
                     
                     child.traverse(node => {
                         if (node.material) {
                             node.material.opacity = targetOpacity;
                             node.material.transparent = true;
-                            node.visible = targetOpacity > 0.01;
-                            // Ensure logo is always drawn on top of the torsion planes
-                            if (isITB) node.renderOrder = 10;
+                            node.visible = isITB ? true : (targetOpacity > 0.01);
+                            
+                            if (isITB) {
+                                node.material.color.setHex(0xff0000); // Temporary RED for debugging
+                                node.renderOrder = 20;
+                            }
                         }
                     });
                 }
