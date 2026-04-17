@@ -274,16 +274,16 @@ document.addEventListener('DOMContentLoaded', () => {
             // twist near 0 -> Front (Ships visible)
             // twist near PI -> Back (Lettering visible)
             const cosTwist = Math.cos(twist);
-            const frontScore = Math.pow(Math.max(0, cosTwist), 2); 
-            const backScore = Math.pow(Math.max(0, -cosTwist), 2); 
+            const frontScore = Math.pow(Math.max(0, cosTwist), 4); 
+            const backScore = Math.pow(Math.max(0, -cosTwist), 4); 
             
             group.children.forEach(child => {
                 if (child.userData && child.userData.isITB !== undefined) {
                     const isITB = child.userData.isITB;
-                    // Properly inverted to match actual visual results:
-                    // Ships (isITB=false) appear at the "backScore" phase
-                    // Branding (isITB=true) appears at the "frontScore" phase
-                    const targetOpacity = isITB ? (frontScore * 1.5) : (backScore * 1.0);
+                    // Sharper transitions (POW 4) to prevent overlapping visibility
+                    // Branding (isITB=true) appears ONLY at the "backScore" (rear phase)
+                    // Ships (isITB=false) appear ONLY at the "frontScore" (forward phase)
+                    const targetOpacity = isITB ? (backScore * 1.5) : (frontScore * 1.0);
                     
                     child.traverse(node => {
                         if (node.material) {
