@@ -91,6 +91,13 @@ h1, h2, h3, h4 {
     margin-bottom: 0.5rem;
 }
 
+.hero-logo {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 2rem;
+    display: block;
+}
+
 /* Form Status Messages */
 .form-status {
     margin-top: 1rem;
