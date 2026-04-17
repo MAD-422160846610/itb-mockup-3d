@@ -478,6 +478,12 @@ h1, h2, h3, h4 {
     transform: scale(1.1);
 }
 
+.nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
 /* Mobile Menu Button */
 .mobile-menu-btn {
     display: none;
@@ -766,6 +772,10 @@ footer {
     
     .mobile-menu-btn {
         display: block;
+    }
+    
+    .btn-theme {
+        font-size: 1.5rem; /* Larger for better tap target on mobile */
     }
     
     .container {
