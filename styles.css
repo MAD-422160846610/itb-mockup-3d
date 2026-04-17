@@ -636,7 +636,7 @@ h1, h2, h3, h4 {
 /* Stats Banner */
 .stats-banner {
     background: var(--navy);
-    padding: 4rem 4rem;
+    padding: 4rem 0;
     border-top: 1px solid rgba(255, 255, 255, 0.1);
     color: var(--white);
 }
