@@ -280,7 +280,10 @@ document.addEventListener('DOMContentLoaded', () => {
             group.children.forEach(child => {
                 if (child.userData && child.userData.isITB !== undefined) {
                     const isITB = child.userData.isITB;
-                    const targetOpacity = isITB ? (backScore * 1.0) : (frontScore * 0.9);
+                    // Properly inverted to match actual visual results:
+                    // Ships (isITB=false) appear at the "backScore" phase now
+                    // Logo (isITB=true) appears at the "frontScore" phase
+                    const targetOpacity = isITB ? (frontScore * 1.2) : (backScore * 1.0);
                     
                     child.traverse(node => {
                         if (node.material) {
