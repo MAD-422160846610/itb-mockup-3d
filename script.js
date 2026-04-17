@@ -282,10 +282,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 const isLettering = ud.isLettering;
                 const isLogo = ud.isLogo;
                 
-                // Final Visibility Phase Mapping
-                // Ships/Logo -> Visual Front (backScore)
-                // Lettering -> Visual Back (frontScore)
-                let targetOpacity = isLettering ? (frontScore * 1.5) : (backScore * 1.0);
+                // Sharp transitions (POW 3)
+                const fScore = Math.pow(Math.max(0, frontScore), 3);
+                const bScore = Math.pow(Math.max(0, backScore), 3);
+                
+                // Logic: 
+                // Ships and Logo -> Visual Front (fScore)
+                // Lettering ITB -> Visual Back/Rotation (bScore)
+                let targetOpacity = isLettering ? (bScore * 2.0) : (fScore * 1.0);
                 
                 group.children.forEach(child => {
                     if (child.material) {
@@ -293,8 +297,12 @@ document.addEventListener('DOMContentLoaded', () => {
                         child.material.transparent = true;
                         child.visible = targetOpacity > 0.05;
                         
-                        if (isLogo) child.renderOrder = 50;
-                        if (isLettering) child.renderOrder = 100;
+                        if (isLogo || isLettering) {
+                            child.renderOrder = 100;
+                            // Ensure they don't clip with each other if overlapping slightly
+                            child.material.depthTest = true;
+                            child.material.depthWrite = false;
+                        }
                     }
                 });
             }
