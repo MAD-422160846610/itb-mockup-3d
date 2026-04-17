@@ -283,9 +283,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     const isLettering = ud.isLettering;
                     const isLogo = ud.isLogo;
                     
-                    // Logic: Ships and Logo appear at visual FRONT (backScore)
-                    // Lettering appears ONLY at visual BACK (frontScore)
-                    let targetOpacity = isLettering ? (frontScore * 1.5) : (backScore * 1.0);
+                    // Corrected mapping: 
+                    // Ships and Logo -> frontScore (Visual FRONT)
+                    // Lettering -> backScore (Visual BACK)
+                    let targetOpacity = isLettering ? (backScore * 1.5) : (frontScore * 1.0);
                     
                     child.traverse(node => {
                         if (node.material) {
