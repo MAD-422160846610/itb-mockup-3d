@@ -471,4 +471,104 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
     }
+    // 🚢 SHIP DETAIL MODAL LOGIC
+    const shipsData = {
+        "bulk-carrier": {
+            title: "Bulk Carrier",
+            utility: "Diseñados para el transporte de carga seca a granel (minerales, granos, carbón). Su estructura requiere inspecciones rigurosas de bodegas y tapas de escotilla.",
+            value: "ITB asegura que la estanqueidad y limpieza de las bodegas cumplan con los estándares para evitar contaminación de la carga y daños estructurales."
+        },
+        "container-ship": {
+            title: "Container Ship",
+            utility: "Buques especializados en el transporte de contenedores estandarizados. La precisión en la estiba y el amarre es crítica para la estabilidad.",
+            value: "Verificamos los sistemas de trincado y la integridad de los puntos de conexión, minimizando riesgos de pérdida de carga en alta mar."
+        },
+        "tanker": {
+            title: "Tanker",
+            utility: "Transporte de líquidos (petróleo, químicos, gas). Operan bajo normativas OCIMF extremadamente estrictas debido al riesgo ambiental.",
+            value: "Nuestros inspectores evalúan la integridad de tanques y sistemas de bombeo, garantizando el cumplimiento de protocolos de seguridad internacionales."
+        },
+        "roro": {
+            title: "Ro-Ro (Roll-on/Roll-off)",
+            utility: "Buques que transportan carga rodante (vehículos, camiones). Poseen rampas integradas y requieren ventilación especializada.",
+            value: "Inspeccionamos los mecanismos de rampa y sistemas de ventilación, asegurando una operación de carga y descarga fluida y segura."
+        },
+        "heavy-lift": {
+            title: "Heavy Lift",
+            utility: "Transporte de cargas sobredimensionadas o extremadamente pesadas (plantas industriales, otros buques).",
+            value: "Evaluamos la capacidad de carga estructural y los puntos de izaje, garantizando que la ingeniería de transporte sea impecable."
+        },
+        "general-cargo": {
+            title: "General Cargo",
+            utility: "Buques versátiles para diversos tipos de mercancías empaquetadas o piezas sueltas.",
+            value: "Optimizamos la supervisión de estiba para maximizar el uso del espacio y proteger la integridad física de cada bulto."
+        },
+        "gasiferos": {
+            title: "Gasíferos (LPG/LNG)",
+            utility: "Transporte de gas licuado de petróleo o natural a temperaturas criogénicas o presurizadas.",
+            value: "ITB aporta inspectores de alta especialidad para verificar sistemas de contención de carga y gestión de vapores (Boil-off gas)."
+        },
+        "buques-proyecto": {
+            title: "Buques Proyecto",
+            utility: "Logística dedicada a componentes de infraestructura masiva (parques eólicos, plataformas).",
+            value: "Coordinamos la logística técnica desde el puerto hasta la entrega, asegurando que cada pieza crítica llegue sin daños."
+        },
+        "dragas": {
+            title: "Dragas",
+            utility: "Equipos de ingeniería para la excavación y remoción de sedimentos en canales de navegación y puertos.",
+            value: "Auditamos la eficiencia operativa y el estado técnico de los equipos de dragado para asegurar calados operativos seguros."
+        },
+        "especializados": {
+            title: "Buques Especializados",
+            utility: "Unidades para fines específicos como investigación, tendido de cables o buceo saturado.",
+            value: "Proveemos certificaciones técnicas que garantizan que el buque puede cumplir su misión especializada bajo estándares de clase."
+        }
+    };
+
+    const modal = document.getElementById('ship-modal');
+    const modalClose = document.getElementById('modal-close');
+    const modalTitle = document.getElementById('modal-title');
+    const modalUtility = document.getElementById('modal-utility');
+    const modalValue = document.getElementById('modal-value');
+
+    const fleetItems = document.querySelectorAll('.fleet-item');
+
+    fleetItems.forEach(item => {
+        item.style.cursor = 'pointer';
+        item.addEventListener('click', () => {
+            const shipKey = item.getAttribute('data-ship');
+            const data = shipsData[shipKey];
+
+            if (data) {
+                modalTitle.textContent = data.title;
+                modalUtility.textContent = data.utility;
+                modalValue.textContent = data.value;
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden'; // Prevent scroll
+            }
+        });
+    });
+
+    if (modalClose) {
+        modalClose.addEventListener('click', () => {
+            modal.classList.remove('active');
+            document.body.style.overflow = ''; // Restore scroll
+        });
+    }
+
+    // Close modal on click outside
+    window.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+    });
+
+    // Close modal on Escape key
+    window.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && modal.classList.contains('active')) {
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+    });
 });

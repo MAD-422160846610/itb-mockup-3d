@@ -1,0 +1,12 @@
+node_modules/
+.DS_Store
+*.log
+.env
+.gemini/
+.agent/
+openspec/
+dist/
+build/
+coverage/
+.lhci/
+.eslintcache

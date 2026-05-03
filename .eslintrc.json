@@ -13,5 +13,9 @@
     "consistent-return": "warn",
     "valid-jsdoc": "off",
     "no-console": ["warn", { "allow": ["warn", "error", "info"] }]
+  },
+  "globals": {
+    "THREE": "readonly",
+    "emailjs": "readonly"
   }
 }
