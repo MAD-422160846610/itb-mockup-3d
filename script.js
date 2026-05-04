@@ -249,6 +249,10 @@ document.addEventListener('DOMContentLoaded', () => {
     let letteringAsset = null;
     function animate() {
         requestAnimationFrame(animate);
+        
+        // Performance optimization: Stop rendering on mobile if canvas is hidden
+        if (window.innerWidth <= 1024) return;
+
         time += 0.02;
         
         updateTexture(time * 1.5);
