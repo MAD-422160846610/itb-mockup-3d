@@ -24,14 +24,14 @@
 }
 
 .light-theme {
-    --bg-main: #FFF;
-    --bg-nav: rgb(255 255 255 / 90%);
+    --bg-main: #FAFBFC;
+    --bg-nav: rgba(250, 251, 252, 0.95);
     --text-main: #0A1929;
-    --text-muted: #2D3E50;
-    --gray-border: #E5E7EB;
-    --heading-color: var(--navy);
-    --logo-color: var(--navy);
-    --gradient-hero: linear-gradient(135deg, #FFF 0%, #F9FAFB 100%);
+    --text-muted: #4A5568;
+    --gray-border: #E2E8F0;
+    --heading-color: #0A1929;
+    --logo-color: #0A1929;
+    --gradient-hero: linear-gradient(135deg, #FAFBFC 0%, #EDF2F7 100%);
 }
 
 * {
@@ -62,14 +62,14 @@ h1, h2, h3, h4 {
 }
 
 .service-icon {
-    font-size: 2.5rem;
+    font-size: 3rem;
     color: var(--gold);
     margin-bottom: 2rem;
     display: block;
 }
 
 .fleet-icon {
-    font-size: 2rem;
+    font-size: 2.5rem;
     color: var(--gold);
     margin-bottom: 1rem;
     display: block;
@@ -77,11 +77,15 @@ h1, h2, h3, h4 {
 
 /* Custom SVG Icons */
 .custom-icon {
-    width: 84px; /* Increased from 48px */
-    height: 84px;
-    margin-bottom: 1.5rem;
+    width: 130px;
+    height: 130px;
+    margin-bottom: 2rem;
     display: block;
-    transition: transform 0.3s ease;
+    transition: transform 0.3s ease, filter 0.5s ease;
+}
+
+.light-theme .custom-icon {
+    filter: brightness(0.15) saturate(120%);
 }
 
 .custom-icon:hover {
@@ -89,16 +93,25 @@ h1, h2, h3, h4 {
 }
 
 .custom-icon.differential-icon {
-    width: 64px; /* Increased from 36px */
-    height: 64px;
-    margin-bottom: 0.5rem;
+    width: 110px;
+    height: 110px;
+    margin-bottom: 1rem;
+}
+
+.light-theme .custom-icon.differential-icon {
+    filter: brightness(0.15) saturate(120%);
 }
 
 .hero-logo {
-    width: 80px;
-    height: 80px;
+    width: 90px;
+    height: 90px;
     margin-bottom: 2rem;
     display: block;
+    transition: filter 0.5s ease;
+}
+
+.light-theme .hero-logo {
+    filter: brightness(0.15) saturate(120%);
 }
 
 /* Form Status Messages */
@@ -207,7 +220,8 @@ h1, h2, h3, h4 {
 .side-by-side .custom-icon, 
 .side-by-side .hero-logo {
     margin-bottom: 0 !important;
-    width: 64px;
+    width: 100px;
+    height: auto;
 }
 
 .section-header h2 {
@@ -273,7 +287,7 @@ h1, h2, h3, h4 {
 }
 
 .fleet-icon-ph {
-    font-size: 3.5rem;
+    font-size: 4rem;
     color: var(--gold);
     margin-bottom: 1.5rem;
     display: block;
@@ -399,6 +413,19 @@ h1, h2, h3, h4 {
     border-top: 1px solid var(--gray-border);
     border-bottom: 1px solid var(--gray-border);
     color: var(--white);
+}
+
+.light-theme .why-itb-section {
+    background: #EDF2F7;
+    color: var(--navy);
+}
+
+.light-theme .why-itb-content p {
+    color: var(--text-muted);
+}
+
+.light-theme .why-itb-feature {
+    background: rgb(0 0 0 / 5%);
 }
 
 .why-itb-grid {
@@ -636,7 +663,7 @@ h1, h2, h3, h4 {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 4rem;
+    padding: 0 5.5rem 0 4rem;
 }
 
 .nav-logo {
@@ -654,7 +681,7 @@ h1, h2, h3, h4 {
 
 .nav-links {
     display: flex;
-    gap: 2rem;
+    gap: 2.5rem;
     list-style: none;
     align-items: center;
 }
@@ -695,22 +722,34 @@ h1, h2, h3, h4 {
     background: none;
     border: none;
     color: var(--logo-color);
-    font-size: 1.25rem;
+    font-size: 1.4rem;
     cursor: pointer;
     display: flex;
     align-items: center;
-    transition: color 0.3s ease, transform 0.3s ease;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    transition: color 0.3s ease, transform 0.3s ease, background 0.3s ease;
+    flex-shrink: 0;
 }
 
 .btn-theme:hover {
     color: var(--red);
     transform: scale(1.1);
+    background: rgb(255 255 255 / 8%);
+}
+
+.light-theme .btn-theme:hover {
+    background: rgb(0 0 0 / 6%);
 }
 
 .nav-actions {
     display: flex;
     align-items: center;
     gap: 1.5rem;
+    flex-shrink: 0;
+    margin-right: 1rem;
 }
 
 /* Mobile Menu Button */
@@ -836,6 +875,16 @@ h1, h2, h3, h4 {
     padding: 4rem 0;
     border-top: 1px solid rgb(255 255 255 / 10%);
     color: var(--white);
+}
+
+.light-theme .stats-banner {
+    background: #F7FAFC;
+    color: var(--navy);
+    border-top: 1px solid var(--gray-border);
+}
+
+.light-theme .stat-item p {
+    color: var(--text-muted);
 }
 
 .stats-grid {

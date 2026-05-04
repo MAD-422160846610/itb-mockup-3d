@@ -262,7 +262,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const surge = Math.cos(time * 1.5 + waveOffset) * 0.2;
             const twist = (i - 6) * 0.2 + (scrollPercent * Math.PI * 2) + (tide * 0.1);
 
-            // Harmonious wave motion (Restored)
             group.rotation.y = twist;
             group.rotation.z = Math.sin(time * 3 + waveOffset) * 0.08;
             
@@ -277,19 +276,21 @@ document.addEventListener('DOMContentLoaded', () => {
             const targetOpacity = Math.pow(Math.max(0, cosTwist), 3);
             
             group.children.forEach(child => {
-                // If it's a ship mesh
-                if (child.userData && child.userData.isShip) {
-                    child.material.opacity = targetOpacity;
-                    child.material.transparent = true;
-                    child.visible = targetOpacity > 0.05;
+                if (child.userData && (child.userData.isShip || child.userData.isAsset)) {
+                    // Apply to the group children
+                    child.children.forEach(mesh => {
+                        if (mesh.material) {
+                            mesh.material.opacity = targetOpacity;
+                            mesh.material.transparent = true;
+                            mesh.visible = targetOpacity > 0.05;
+                        }
+                    });
                 }
             });
         });
 
         // Floating Branding Update
         if (letteringAsset) {
-            // Gentle floating physics independent of the main scroll twist
-            // Calibrated offsets to align perfectly with the visual torsion center (moved left and up)
             const offsetX = -0.25;
             const offsetY = 0.25;
             
@@ -317,19 +318,17 @@ document.addEventListener('DOMContentLoaded', () => {
     animate();
 
     // 🚢 ITB VECTOR ASSETS INTEGRATION
-    // Check if SVGLoader is available
-    if (typeof THREE.SVGLoader === 'undefined') {
-        console.warn('SVGLoader not loaded, skipping ship assets');
-    } else {
+    if (typeof THREE.SVGLoader !== 'undefined') {
         const loader = new THREE.SVGLoader();
         const originUrl = window.location.href.includes('github.io') 
             ? 'https://mad-422160846610.github.io/itb-mockup-3d/' 
             : '';
+
         const svgAssets = [
             { url: originUrl + 'assets/shipGeneralCargo.svg', index: 0, scale: 0.001 },
             { url: originUrl + 'assets/shipContainer.svg', index: 2, scale: 0.001 },
             { url: originUrl + 'assets/shipBulkCarrier.svg', index: 4, scale: 0.001 },
-            { url: originUrl + 'assets/letteringITB.svg', index: 6, scale: 0.0018 },
+            { url: originUrl + 'assets/letteringITB.svg', index: 6, isLettering: true, scale: 0.0018 },
             { url: originUrl + 'assets/shipHeavyLiftVessel.svg', index: 8, scale: 0.001 },
             { url: originUrl + 'assets/shipTanker.svg', index: 10, scale: 0.001 },
             { url: originUrl + 'assets/shipRoro.svg', index: 12, scale: 0.001 }
@@ -339,9 +338,9 @@ document.addEventListener('DOMContentLoaded', () => {
             loader.load(asset.url, (data) => {
                 const paths = data.paths;
                 const group = new THREE.Group();
-                group.userData.isLogo = asset.url.toLowerCase().includes('logoitb');
-                group.userData.isLettering = asset.url.toLowerCase().includes('letteringitb');
-                group.userData.isAsset = true; // Meta tag
+                group.userData.isAsset = true;
+                group.userData.isShip = !asset.isLettering;
+                group.userData.isLettering = asset.isLettering;
 
                 for (let i = 0; i < paths.length; i++) {
                     const path = paths[i];
@@ -353,11 +352,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         opacity: 1.0
                     });
 
-                    // Compatibility check for shape creation
-                    const shapes = (typeof THREE.SVGLoader.createShapes === 'function') 
-                        ? THREE.SVGLoader.createShapes(path) 
-                        : path.toShapes(true);
-
+                    const shapes = THREE.SVGLoader.createShapes(path);
                     for (let j = 0; j < shapes.length; j++) {
                         const shape = shapes[j];
                         const geometry = new THREE.ShapeGeometry(shape);
@@ -367,43 +362,32 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
                 
                 group.scale.set(asset.scale, -asset.scale, asset.scale);
-                
-                // Centering logic
                 const box = new THREE.Box3().setFromObject(group);
                 const center = box.getCenter(new THREE.Vector3());
                 group.position.x = -center.x;
                 group.position.y = -center.y;
                 group.position.z = 0.5;
 
-                if (group.userData.isLettering) {
+                if (asset.isLettering) {
                     letteringAsset = group;
                     scene.add(group);
                 } else if (stack[asset.index]) {
-                    // Mark children as ships for visibility logic
-                    group.children.forEach(c => c.userData.isShip = true);
                     stack[asset.index].add(group);
                 }
-            }, undefined, (error) => {
-                console.warn(`Error loading asset ${asset.url}:`, error);
             });
         });
     }
 
     // Resize Handling
     window.addEventListener('resize', () => {
-        // Only resize if canvas container is visible (50vw layout)
         const canvasContainer = document.getElementById('canvas-container');
         if (canvasContainer && window.innerWidth > 1024) {
             camera.aspect = (window.innerWidth / 2) / window.innerHeight;
             camera.updateProjectionMatrix();
             renderer.setSize(window.innerWidth / 2, window.innerHeight);
-        } else {
-            // Hide canvas on smaller screens
-            canvasContainer.style.display = 'none';
         }
     });
 
-    // Check initial window size
     if (window.innerWidth <= 1024) {
         container.style.display = 'none';
     }
@@ -469,6 +453,15 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                 });
             });
+
+            // Update Floating Branding Color
+            if (letteringAsset) {
+                letteringAsset.children.forEach(mesh => {
+                    if (mesh.material && !mesh.material.wireframe) {
+                        mesh.material.color.setHex(newShipColor);
+                    }
+                });
+            }
         });
     }
     // 🚢 SHIP DETAIL MODAL LOGIC
