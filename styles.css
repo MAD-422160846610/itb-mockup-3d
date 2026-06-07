@@ -190,6 +190,22 @@ h1, h2, h3, h4 {
     padding: 4rem 0;
     border-right: none;
     border-bottom: 1px solid var(--gray-border);
+    /* Performance: Optimize rendering */
+    will-change: opacity, transform;
+    content-visibility: auto;
+    contain-intrinsic-size: 300px;
+}
+
+/* Fleet SVG optimization */
+.fleet-svg {
+    width: 100%;
+    max-width: 280px;
+    height: auto;
+    display: block;
+    margin: 0 auto 2rem;
+    /* Performance: GPU acceleration for animations */
+    will-change: transform;
+    transform: translateZ(0);
 }
 
 /* Section Headers */

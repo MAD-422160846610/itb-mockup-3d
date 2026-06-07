@@ -143,18 +143,39 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(75, (window.innerWidth / 2) / window.innerHeight, 0.1, 1000);
-    const renderer = new THREE.WebGLRenderer({ antialias: true });
+    const renderer = new THREE.WebGLRenderer({ 
+        antialias: true,
+        powerPreference: 'high-performance'
+    });
     renderer.setClearColor(0x0A1929);
     
     renderer.setSize(window.innerWidth / 2, window.innerHeight);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    
+    // Performance: Enable WebGL optimizations
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
     container.appendChild(renderer.domElement);
 
-    // Dynamic Maritime Texture
+    // Performance: Track visibility to pause rendering
+    let isVisible = true;
+    let shouldRender = true;
+    
+    // Intersection Observer to pause rendering when canvas is not visible
+    const canvasObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            isVisible = entry.isIntersecting;
+        });
+    }, { threshold: 0.1 });
+    
+    if (container) {
+        canvasObserver.observe(container);
+    }
+
+    // Dynamic Maritime Texture with reduced update frequency
     const canvas = document.createElement('canvas');
     const ctx = canvas.getContext('2d');
-    canvas.width = 512;
-    canvas.height = 512;
+    canvas.width = 256; // Reduced from 512 for better performance
+    canvas.height = 256;
 
     const maritimeData = [
         "LAT: 10.4806° N", "LON: 66.9036° W", 
@@ -247,16 +268,29 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let time = 0;
     let letteringAsset = null;
+    
+    // Performance: Throttle texture updates
+    let lastTextureUpdate = 0;
+    const textureUpdateInterval = 100; // Update every 100ms instead of every frame
+    
     function animate() {
         requestAnimationFrame(animate);
         
         // Performance optimization: Stop rendering on mobile if canvas is hidden
         if (window.innerWidth <= 1024) return;
+        
+        // Performance: Pause rendering when canvas is not visible
+        if (!isVisible) return;
 
         time += 0.02;
         
-        updateTexture(time * 1.5);
-        texture.needsUpdate = true;
+        // Throttled texture update
+        const now = Date.now();
+        if (now - lastTextureUpdate > textureUpdateInterval) {
+            updateTexture(time * 1.5);
+            texture.needsUpdate = true;
+            lastTextureUpdate = now;
+        }
 
         const scrollPercent = scrollY / (document.documentElement.scrollHeight - window.innerHeight);
         
@@ -382,21 +416,25 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Resize Handling
+    // Resize Handling with debounce
+    let resizeTimeout;
     window.addEventListener('resize', () => {
-        const canvasContainer = document.getElementById('canvas-container');
-        if (canvasContainer && window.innerWidth > 1024) {
-            camera.aspect = (window.innerWidth / 2) / window.innerHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth / 2, window.innerHeight);
-        }
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(() => {
+            const canvasContainer = document.getElementById('canvas-container');
+            if (canvasContainer && window.innerWidth > 1024) {
+                camera.aspect = (window.innerWidth / 2) / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth / 2, window.innerHeight);
+            }
+        }, 250); // Debounce resize events
     });
 
     if (window.innerWidth <= 1024) {
         container.style.display = 'none';
     }
 
-    // 🕵️ REVEAL OBSERVER
+    // 🕵️ REVEAL OBSERVER with performance optimization
     const revealElements = document.querySelectorAll('.grid-item, .hero-text, .hero-text > *, .section-header, .about-content, .contact-grid');
     const revealObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
@@ -406,7 +444,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 revealObserver.unobserve(entry.target);
             }
         });
-    }, { threshold: 0.1 });
+    }, { threshold: 0.1, rootMargin: '50px' });
 
     revealElements.forEach(el => {
         el.style.opacity = '0';
@@ -415,13 +453,26 @@ document.addEventListener('DOMContentLoaded', () => {
         revealObserver.observe(el);
     });
 
-    // 🌗 THEME TOGGLE LOGIC
+    // 🌗 THEME TOGGLE LOGIC with localStorage persistence
     const themeBtn = document.getElementById('theme-toggle');
+    
+    // Load saved theme preference
+    const savedTheme = localStorage.getItem('itb-theme');
+    if (savedTheme === 'light') {
+        isDarkTheme = false;
+        document.documentElement.classList.add('light-theme');
+        if (themeBtn) {
+            themeBtn.innerHTML = '<i class="ph ph-moon"></i>';
+        }
+    }
     if (themeBtn) {
         themeBtn.addEventListener('click', (e) => {
             e.preventDefault();
             isDarkTheme = !isDarkTheme;
             document.documentElement.classList.toggle('light-theme');
+            
+            // Save theme preference to localStorage
+            localStorage.setItem('itb-theme', isDarkTheme ? 'dark' : 'light');
             
             themeBtn.innerHTML = isDarkTheme 
                 ? '<i class="ph ph-sun"></i>' 

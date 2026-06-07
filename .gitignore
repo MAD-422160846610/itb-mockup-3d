@@ -1,12 +1,1 @@
-node_modules/
-.DS_Store
-*.log
-.env
-.gemini/
-.agent/
-openspec/
-dist/
-build/
-coverage/
-.lhci/
-.eslintcache
+Nothing needs to be added to the .gitignore file based on the provided changes. The listed files (OPTIMIZACIONES.md, index.html, script.js, styles.css) are all source/config files and do not fall under any of the common ignore patterns like compiled files, dependency directories, editor files, etc.
