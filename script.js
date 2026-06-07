@@ -141,13 +141,24 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
     }
 
+    // Performance optimization: Skip Three.js on mobile devices
+    if (window.innerWidth <= 1024) {
+        container.style.display = 'none';
+        return;
+    }
+
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(75, (window.innerWidth / 2) / window.innerHeight, 0.1, 1000);
-    const renderer = new THREE.WebGLRenderer({ antialias: true });
+    const renderer = new THREE.WebGLRenderer({ 
+        antialias: true,
+        powerPreference: 'high-performance'
+    });
     renderer.setClearColor(0x0A1929);
     
+    // Optimize pixel ratio for performance
+    const pixelRatio = Math.min(window.devicePixelRatio, 1.5);
+    renderer.setPixelRatio(pixelRatio);
     renderer.setSize(window.innerWidth / 2, window.innerHeight);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     container.appendChild(renderer.domElement);
 
     // Dynamic Maritime Texture
@@ -391,10 +402,6 @@ document.addEventListener('DOMContentLoaded', () => {
             renderer.setSize(window.innerWidth / 2, window.innerHeight);
         }
     });
-
-    if (window.innerWidth <= 1024) {
-        container.style.display = 'none';
-    }
 
     // 🕵️ REVEAL OBSERVER
     const revealElements = document.querySelectorAll('.grid-item, .hero-text, .hero-text > *, .section-header, .about-content, .contact-grid');

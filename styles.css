@@ -1129,3 +1129,21 @@ footer {
         gap: 1rem;
     }
 }
+/* Performance Optimizations */
+.grid-item, .hero-text, .section-header, .about-content, .contact-grid {
+    will-change: opacity, transform;
+}
+
+.grid-item:hover, .hero-logo:hover, .custom-icon:hover {
+    will-change: auto;
+}
+
+/* Reduce paint operations on static elements */
+.nav-content, .footer {
+    contain: layout style;
+}
+
+/* Optimize canvas container */
+#canvas-container {
+    contain: strict;
+}
