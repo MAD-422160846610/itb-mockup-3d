@@ -8,22 +8,24 @@
     <meta name="description"
         content="Soluciones integrales de inspección, carga y asesoría legal marítima con estándares internacionales SOLAS y MARPOL.">
 
-    <!-- Google Fonts: Tempo Style -->
+    <!-- Google Fonts: Tempo Style (Preload critical fonts) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&family=Open+Sans:wght@300;400;600&family=Roboto+Mono:wght@400;700&display=swap">
     <link
         href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&family=Open+Sans:wght@300;400;600&family=Roboto+Mono:wght@400;700&display=swap"
         rel="stylesheet">
 
-    <!-- Phosphor Icons -->
-    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <!-- Phosphor Icons (Deferred) -->
+    <script src="https://unpkg.com/@phosphor-icons/web" defer></script>
 
-    <!-- EmailJS -->
-    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <!-- EmailJS (Deferred - not critical for initial render) -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js" defer></script>
 
-    <link rel="stylesheet" href="styles.css?v=1.0.1">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/SVGLoader.js"></script>
+    <link rel="stylesheet" href="styles.css?v=1.0.3">
+    <!-- Three.js loaded asynchronously to prevent render blocking -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/SVGLoader.js" defer></script>
 </head>
 
 <body>
@@ -64,7 +66,7 @@
             <div class="container">
                 <div class="hero-text">
                     <div class="side-by-side">
-                        <img src="assets/logoITB.svg" alt="ITB Logo" class="hero-logo">
+                        <img src="assets/logoITB.svg" alt="ITB Logo" class="hero-logo" loading="eager" fetchpriority="high">
                         <span class="label">01 // Ecosistema Integral Marítimo</span>
                     </div>
                     <h1>Seguridad en el Mar, <br><span>Precisión en la Tierra</span></h1>
@@ -114,7 +116,7 @@
                 <div class="grid-container">
                     <div class="grid-item">
                         <div class="label">Inspección Técnica</div>
-                        <img src="assets/iconInspeccion.svg" alt="Inspección Técnica" class="custom-icon">
+                        <img src="assets/iconInspeccion.svg" alt="Inspección Técnica" class="custom-icon" loading="lazy">
                         <h3>Certificación de Casco y Estructura</h3>
                         <p>Análisis detallado de la integridad estructural del buque para garantizar la máxima seguridad
                             y resistencia en condiciones marítimas exigentes.</p>
@@ -127,7 +129,7 @@
 
                     <div class="grid-item">
                         <div class="label">Carga y Commodities</div>
-                        <img src="assets/iconControlCalidad.svg" alt="Control de Calidad" class="custom-icon">
+                        <img src="assets/iconControlCalidad.svg" alt="Control de Calidad" class="custom-icon" loading="lazy">
                         <h3>Control de Calidad</h3>
                         <p>Control riguroso de cantidad y calidad (QQ) para todo tipo de mercancías y graneles.</p>
                         <ul class="service-list">
@@ -145,7 +147,7 @@
 
                     <div class="grid-item">
                         <div class="label">Asesoría Legal</div>
-                        <img src="assets/iconLegal.svg" alt="Asesoría Legal" class="custom-icon">
+                        <img src="assets/iconLegal.svg" alt="Asesoría Legal" class="custom-icon" loading="lazy">
                         <h3>Derecho Marítimo</h3>
                         <p>Especialistas en fletamentos, reclamos comerciales e intermediación internacional.</p>
                         <ul class="service-list">
@@ -158,7 +160,7 @@
 
                     <div class="grid-item">
                         <div class="label">Servicios Técnicos</div>
-                        <img src="assets/iconReparaciones.svg" alt="Servicios Técnicos" class="custom-icon">
+                        <img src="assets/iconReparaciones.svg" alt="Servicios Técnicos" class="custom-icon" loading="lazy">
                         <h3>Servicio Técnico</h3>
                         <p>Coordinación integral con astilleros y proveedores especializados.</p>
                         <ul class="service-list">
@@ -185,32 +187,32 @@
                 </div>
                 <div class="grid-container fleet-grid">
                     <div class="grid-item fleet-item" data-ship="bulk-carrier">
-                        <img src="assets/shipBulkCarrier.svg" alt="Bulk Carrier" class="fleet-svg">
+                        <img src="assets/shipBulkCarrier.svg" alt="Bulk Carrier" class="fleet-svg" loading="lazy">
                         <h3>Bulk Carrier</h3>
                         <p>Inspecciones especializadas en graneles sólidos</p>
                     </div>
                     <div class="grid-item fleet-item" data-ship="container-ship">
-                        <img src="assets/shipContainer.svg" alt="Container Ship" class="fleet-svg">
+                        <img src="assets/shipContainer.svg" alt="Container Ship" class="fleet-svg" loading="lazy">
                         <h3>Container Ship</h3>
                         <p>Control de carga contenerizada y verificación de estiba</p>
                     </div>
                     <div class="grid-item fleet-item" data-ship="tanker">
-                        <img src="assets/shipTanker.svg" alt="Tanker" class="fleet-svg">
+                        <img src="assets/shipTanker.svg" alt="Tanker" class="fleet-svg" loading="lazy">
                         <h3>Tanker</h3>
                         <p>Cargas líquidas, muestreo y análisis de calidad</p>
                     </div>
                     <div class="grid-item fleet-item" data-ship="roro">
-                        <img src="assets/shipRoro.svg" alt="Ro-Ro" class="fleet-svg">
+                        <img src="assets/shipRoro.svg" alt="Ro-Ro" class="fleet-svg" loading="lazy">
                         <h3>Ro-Ro</h3>
                         <p>Vehículos y carga rodante, inspección de cubicaje</p>
                     </div>
                     <div class="grid-item fleet-item" data-ship="heavy-lift">
-                        <img src="assets/shipHeavyLiftVessel.svg" alt="Heavy Lift" class="fleet-svg">
+                        <img src="assets/shipHeavyLiftVessel.svg" alt="Heavy Lift" class="fleet-svg" loading="lazy">
                         <h3>Heavy Lift</h3>
                         <p>Carga proyectada y equipos fuera de gauge</p>
                     </div>
                     <div class="grid-item fleet-item" data-ship="general-cargo">
-                        <img src="assets/shipGeneralCargo.svg" alt="General Cargo" class="fleet-svg">
+                        <img src="assets/shipGeneralCargo.svg" alt="General Cargo" class="fleet-svg" loading="lazy">
                         <h3>General Cargo</h3>
                         <p>Carga general y multimodal</p>
                     </div>
@@ -248,37 +250,37 @@
                 </div>
                 <div class="grid-container differentials-grid">
                     <div class="grid-item differential-item">
-                        <img src="assets/icon01.svg" alt="Rapidez" class="custom-icon differential-icon">
+                        <img src="assets/icon01.svg" alt="Rapidez" class="custom-icon differential-icon" loading="lazy">
                         <span class="diff-number">01</span>
                         <h3>Rapidez Operativa</h3>
                         <p>Reportes preliminares en 24h. No paralizamos la operación de su buque.</p>
                     </div>
                     <div class="grid-item differential-item">
-                        <img src="assets/icon02.svg" alt="Precio" class="custom-icon differential-icon">
+                        <img src="assets/icon02.svg" alt="Precio" class="custom-icon differential-icon" loading="lazy">
                         <span class="diff-number">02</span>
                         <h3>Precio Competitivo</h3>
                         <p>30% menor costo que las clasificadoras globales sin perder calidad.</p>
                     </div>
                     <div class="grid-item differential-item">
-                        <img src="assets/icon03.svg" alt="Partner" class="custom-icon differential-icon">
+                        <img src="assets/icon03.svg" alt="Partner" class="custom-icon differential-icon" loading="lazy">
                         <span class="diff-number">03</span>
                         <h3>Un Solo Partner</h3>
                         <p>Inspección, carga y legal en un solo proveedor. Sin fragmentación.</p>
                     </div>
                     <div class="grid-item differential-item">
-                        <img src="assets/icon04.svg" alt="Red" class="custom-icon differential-icon">
+                        <img src="assets/icon04.svg" alt="Red" class="custom-icon differential-icon" loading="lazy">
                         <span class="diff-number">04</span>
                         <h3>Red UCTI Holding</h3>
                         <p>Acceso a reparaciones, sub-acuáticas y análisis técnicos.</p>
                     </div>
                     <div class="grid-item differential-item">
-                        <img src="assets/icon05.svg" alt="Certificación" class="custom-icon differential-icon">
+                        <img src="assets/icon05.svg" alt="Certificación" class="custom-icon differential-icon" loading="lazy">
                         <span class="diff-number">05</span>
                         <h3>Certificación Internacional</h3>
                         <p>Compatible con SGS, Bureau Veritas, Lloyd's Register.</p>
                     </div>
                     <div class="grid-item differential-item">
-                        <img src="assets/icon06.svg" alt="Atención" class="custom-icon differential-icon">
+                        <img src="assets/icon06.svg" alt="Atención" class="custom-icon differential-icon" loading="lazy">
                         <span class="diff-number">06</span>
                         <h3>Atención Local 24/7</h3>
                         <p>Inspectores en Caracas con disponibilidad inmediata.</p>
